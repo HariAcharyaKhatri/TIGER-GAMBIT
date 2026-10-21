@@ -1,0 +1,25 @@
+<!-- Reusable Navbar Component -->
+<nav class="navbar" id="navbar">
+  <a class="nav-brand" href="#home" data-nav="home">
+    <img src="assets/images/logo.svg" alt="Bagh-Chal Logo" class="nav-logo-img">
+  </a>
+
+  <button class="nav-mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+    ☰
+  </button>
+
+  <div class="nav-links" id="navLinks">
+    <a class="nav-link active" href="#home" data-nav="home">Home</a>
+    <a class="nav-link" href="#game" data-nav="game">Play</a>
+    <a class="nav-link" href="#puzzles" data-nav="puzzles">Puzzles</a>
+    <a class="nav-link" href="#learn" data-nav="learn">Rules &amp; Learn</a>
+    <a class="nav-link" href="#leaderboard" data-nav="leaderboard">Leaderboard</a>
+    <a class="nav-link" href="#statistics" data-nav="statistics">Statistics</a>
+  </div>
+
+  <div class="nav-actions">
+    <button class="btn btn-icon btn-secondary" id="btnToggleSound" title="Toggle Sound FX">🔊</button>
+    <button class="btn btn-icon btn-secondary" id="btnOpenSettings" title="Customization &amp; Settings">⚙️</button>
+    <button class="btn btn-sm btn-gold" onclick="window.BaghChal.App.openNewGameModal('ai')">New Game</button>
+  </div>
+</nav>

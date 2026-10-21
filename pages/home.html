@@ -1,0 +1,143 @@
+<!-- ====================================================================
+     PAGE: HOME
+     ==================================================================== -->
+<section class="view-section active" id="section-home">
+  <div class="hero-section">
+    <div class="hero-backdrop"></div>
+    <div class="hero-content">
+      <div class="hero-badge-wrap">
+        <span class="badge badge-gold">The Ancient Strategic Hunt of Nepal</span>
+      </div>
+      <h1 class="hero-title">Bagh-Chal</h1>
+      <p class="hero-subtitle">
+        Four fierce tigers prowl to hunt their prey, while twenty courageous mountain goats unite to trap the mighty predators. Master the timeless 5×5 asymmetric duel of wits.
+      </p>
+
+      <div class="hero-actions">
+        <button class="btn btn-lg btn-gold" id="btnPlayHero">
+          <span>⚔️</span> Play Now
+        </button>
+        <button class="btn btn-lg btn-secondary" id="btnResumeGame" style="display:none;">
+          <span>▶️</span> Resume Match
+        </button>
+        <a class="btn btn-lg btn-outline" href="#learn" data-nav="learn">
+          <span>📖</span> How to Play
+        </a>
+      </div>
+
+      <div class="quick-stats-strip">
+        <div class="quick-stat-item">
+          <span>Board Size:</span>
+          <span class="quick-stat-value">5×5 Grid (25 Points)</span>
+        </div>
+        <div class="quick-stat-item">
+          <span>The Predators:</span>
+          <span class="quick-stat-value text-tiger">4 Tigers</span>
+        </div>
+        <div class="quick-stat-item">
+          <span>The Herd:</span>
+          <span class="quick-stat-value text-goat">20 Goats</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modes-section">
+    <div class="section-header">
+      <h2 class="section-title">Select Game Mode</h2>
+      <span class="badge badge-gold">Multiple Challenges</span>
+    </div>
+
+    <div class="modes-grid">
+      <div class="mode-card" onclick="window.BaghChal.App.openNewGameModal('ai')">
+        <div>
+          <div class="mode-card-header">
+            <div class="mode-icon-circle">🤖</div>
+            <span class="badge badge-gold">Recommended</span>
+          </div>
+          <h3 class="mode-card-title">Single Player vs AI</h3>
+          <p class="mode-card-desc">Challenge our tactical alpha-beta AI across 5 distinct difficulties: Beginner, Easy, Medium, Hard, or Expert.</p>
+        </div>
+        <div class="mode-card-footer">
+          <span>Play as Goats or Tigers</span>
+          <span class="mode-play-action">Start →</span>
+        </div>
+      </div>
+
+      <div class="mode-card" onclick="window.BaghChal.App.openNewGameModal('friend')">
+        <div>
+          <div class="mode-card-header">
+            <div class="mode-icon-circle">👥</div>
+            <span class="badge badge-goat">Local</span>
+          </div>
+          <h3 class="mode-card-title">Pass &amp; Play</h3>
+          <p class="mode-card-desc">Two players on one device. Take turns hunting and trapping in authentic tabletop board game fashion.</p>
+        </div>
+        <div class="mode-card-footer">
+          <span>2 Players Same Screen</span>
+          <span class="mode-play-action">Start →</span>
+        </div>
+      </div>
+
+      <div class="mode-card" onclick="window.BaghChal.Router.navigate('puzzles')">
+        <div>
+          <div class="mode-card-header">
+            <div class="mode-icon-circle">🧩</div>
+            <span class="badge badge-tiger">Tactics</span>
+          </div>
+          <h3 class="mode-card-title">Tactical Puzzles</h3>
+          <p class="mode-card-desc">Test your strategic intuition with curated endgame situations: discover winning leaps and escape iron locks.</p>
+        </div>
+        <div class="mode-card-footer">
+          <span>6 Curated Positions</span>
+          <span class="mode-play-action">Solve →</span>
+        </div>
+      </div>
+
+      <div class="mode-card" onclick="window.BaghChal.App.openNewGameModal('online')">
+        <div>
+          <div class="mode-card-header">
+            <div class="mode-icon-circle">🌐</div>
+            <span class="badge badge-gold">Quick Match</span>
+          </div>
+          <h3 class="mode-card-title">Online Multiplayer</h3>
+          <p class="mode-card-desc">Connect to a quick match against an opponent. Includes realistic simulated matchmaking queue for instant play.</p>
+        </div>
+        <div class="mode-card-footer">
+          <span>Instant Matchmaking</span>
+          <span class="mode-play-action">Find Match →</span>
+        </div>
+      </div>
+
+      <div class="mode-card" onclick="window.BaghChal.App.openNewGameModal('ai_vs_ai')">
+        <div>
+          <div class="mode-card-header">
+            <div class="mode-icon-circle">👁️</div>
+            <span class="badge badge-goat">Spectate</span>
+          </div>
+          <h3 class="mode-card-title">Watch AI Match</h3>
+          <p class="mode-card-desc">Observe two expert AI engines duel against each other. Excellent for learning high-level positioning and traps.</p>
+        </div>
+        <div class="mode-card-footer">
+          <span>Spectator Mode</span>
+          <span class="mode-play-action">Watch →</span>
+        </div>
+      </div>
+
+      <div class="mode-card" onclick="window.BaghChal.App.openNewGameModal('practice')">
+        <div>
+          <div class="mode-card-header">
+            <div class="mode-icon-circle">🎓</div>
+            <span class="badge badge-tiger">Sandbox</span>
+          </div>
+          <h3 class="mode-card-title">Practice Sandbox</h3>
+          <p class="mode-card-desc">Experiment freely without pressure. Unlimited undos, move hints, and positional threat evaluation.</p>
+        </div>
+        <div class="mode-card-footer">
+          <span>No Stats Penalty</span>
+          <span class="mode-play-action">Practice →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

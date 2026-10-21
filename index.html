@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="midnight">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Bagh-Chal — Tiger's Gambit | Traditional Board Game</title>
+  <meta name="description" content="Experience Bagh-Chal, the ancient asymmetric strategic board game of Nepal. Play as Tigers or Goats with advanced AI, tactical puzzles, handcrafted board designs, and multiple game modes.">
+
+  <!-- Favicon / Vector Icon -->
+  <link rel="icon" type="image/svg+xml" href="assets/images/tiger.svg">
+
+  <!-- Google Fonts: Cinzel (Display Serif) & Inter (Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/board.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar" id="navbar">
+    <a class="nav-brand" href="#home" data-nav="home">
+      <img src="assets/images/logo.svg" alt="Bagh-Chal Logo" class="nav-logo-img">
+    </a>
+
+    <button class="nav-mobile-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
+      ☰
+    </button>
+
+    <div class="nav-links" id="navLinks">
+      <a class="nav-link active" href="#home" data-nav="home">Home</a>
+      <a class="nav-link" href="#game" data-nav="game">Play</a>
+      <a class="nav-link" href="#puzzles" data-nav="puzzles">Puzzles</a>
+      <a class="nav-link" href="#learn" data-nav="learn">Rules &amp; Learn</a>
+      <a class="nav-link" href="#leaderboard" data-nav="leaderboard">Leaderboard</a>
+      <a class="nav-link" href="#statistics" data-nav="statistics">Statistics</a>
+    </div>
+
+    <div class="nav-actions">
+      <button class="btn btn-icon btn-secondary" id="btnToggleSound" title="Toggle Sound FX">🔊</button>
+      <button class="btn btn-icon btn-secondary" id="btnOpenSettings" title="Customization &amp; Settings">⚙️</button>
+      <button class="btn btn-sm btn-gold" onclick="window.BaghChal.App.openNewGameModal('ai')">New Game</button>
+    </div>
+  </nav>
+
+  <!-- Main Content Stage -->
+  <main class="app-container">
+
+    <!-- ====================================================================
+         VIEW: HOME
+         ==================================================================== -->
+    <section class="view-section active" id="section-home">
+      <div class="hero-section">
+        <div class="hero-backdrop"></div>
+        <div class="hero-content">
+          <div class="hero-badge-wrap">
+            <span class="badge badge-gold">The Ancient Strategic Hunt of Nepal</span>
+          </div>
+          <h1 class="hero-title">Bagh-Chal</h1>
+          <p class="hero-subtitle">
+            Four fierce tigers prowl to hunt their prey, while twenty courageous mountain goats unite to trap the mighty predators. Master the timeless 5×5 asymmetric duel of wits.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn btn-lg btn-gold" id="btnPlayHero">
+              <span>⚔️</span> Play Now
+            </button>
+            <button class="btn btn-lg btn-secondary" id="btnResumeGame" style="display:none;">
+              <span>▶️</span> Resume Match
+            </button>
+            <a class="btn btn-lg btn-outline" href="#learn" data-nav="learn">
+              <span>📖</span> How to Play
+            </a>
+          </div>
+
+          <!-- Quick Stats Strip -->
+          <div class="quick-stats-strip">
+            <div class="quick-stat-item">
+              <span>Board Size:</span>
+              <span class="quick-stat-value">5×5 Grid (25 Points)</span>
+            </div>
+            <div class="quick-stat-item">
+              <span>The Predators:</span>
+              <span class="quick-stat-value text-tiger">4 Tigers</span>
+            </div>
+            <div class="quick-stat-item">
+              <span>The Herd:</span>
+              <span class="quick-stat-value text-goat">20 Goats</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game Modes Grid -->
+      <div class="modes-section">
+        <div class="section-header">
+          <h2 class="section-title">Select Game Mode</h2>
+          <span class="badge badge-gold">Multiple Challenges</span>
+        </div>
+
+        <div class="modes-grid">
+          <!-- Mode 1: Play vs AI -->
+          <div class="mode-card" onclick="window.BaghChal.App.openNewGameModal('ai')">
+            <div>
+              <div class="mode-card-header">
+                <div class="mode-icon-circle">🤖</div>
+                <span class="badge badge-gold">Recommended</span>
+              </div>
+              <h3 class="mode-card-title">Single Player vs AI</h3>
+              <p class="mode-card-desc">
+                Challenge our tactical alpha-beta AI across 5 distinct difficulties: Beginner, Easy, Medium, Hard, or Expert.
+              </p>
+            </div>
+            <div class="mode-card-footer">
+              <span>Play as Goats or Tigers</span>
+              <span class="mode-play-action">Start →</span>
+            </div>
+          </div>
+
+          <!-- Mode 2: Pass & Play -->
+          <div class="mode-card" onclick="window.BaghChal.App.openNewGameModal('friend')">
+            <div>
+              <div class="mode-card-header">
+                <div class="mode-icon-circle">👥</div>
+                <span class="badge badge-goat">Local</span>
+              </div>
+              <h3 class="mode-card-title">Pass &amp; Play</h3>
+              <p class="mode-card-desc">
+                Two players on one device. Take turns hunting and trapping in authentic tabletop board game fashion.
+              </p>
+            </div>
+            <div class="mode-card-footer">
+              <span>2 Players Same Screen</span>
+              <span class="mode-play-action">Start →</span>
+            </div>
+          </div>
+
+          <!-- Mode 3: Tactical Puzzles -->
+          <div class="mode-card" onclick="window.BaghChal.Router.navigate('puzzles')">
+            <div>
+              <div class="mode-card-header">
+                <div class="mode-icon-circle">🧩</div>
+                <span class="badge badge-tiger">Tactics</span>
+              </div>
+              <h3 class="mode-card-title">Tactical Puzzles</h3>
+              <p class="mode-card-desc">
+                Test your strategic intuition with curated endgame situations: discover winning leaps and escape iron locks.
+              </p>
+            </div>
+            <div class="mode-card-footer">
+              <span>6 Curated Positions</span>
+              <span class="mode-play-action">Solve →</span>
+            </div>
+          </div>
+
+          <!-- Mode 4: Online Matchmaking (Demo / Simulated) -->
+          <div class="mode-card" onclick="window.BaghChal.App.openNewGameModal('online')">
+            <div>
+              <div class="mode-card-header">
+                <div class="mode-icon-circle">🌐</div>
+                <span class="badge badge-gold">Quick Match</span>
+              </div>
+              <h3 class="mode-card-title">Online Multiplayer</h3>
+              <p class="mode-card-desc">
+                Connect to a quick match against an opponent. Includes realistic simulated matchmaking queue for instant play.
+              </p>
+            </div>
+            <div class="mode-card-footer">
+              <span>Instant Matchmaking</span>
+              <span class="mode-play-action">Find Match →</span>
+            </div>
+          </div>
+
+          <!-- Mode 5: Watch AI Match -->
+          <div class="mode-card" onclick="window.BaghChal.App.openNewGameModal('ai_vs_ai')">
+            <div>
+              <div class="mode-card-header">
+                <div class="mode-icon-circle">👁️</div>
+                <span class="badge badge-goat">Spectate</span>
+              </div>
+              <h3 class="mode-card-title">Watch AI Match</h3>
+              <p class="mode-card-desc">
+                Observe two expert AI engines duel against each other. Excellent for learning high-level positioning and traps.
+              </p>
+            </div>
+            <div class="mode-card-footer">
+              <span>Spectator Mode</span>
+              <span class="mode-play-action">Watch →</span>
+            </div>
+          </div>
+
+          <!-- Mode 6: Practice & Sandbox -->
+          <div class="mode-card" onclick="window.BaghChal.App.openNewGameModal('practice')">
+            <div>
+              <div class="mode-card-header">
+                <div class="mode-icon-circle">🎓</div>
+                <span class="badge badge-tiger">Sandbox</span>
+              </div>
+              <h3 class="mode-card-title">Practice Sandbox</h3>
+              <p class="mode-card-desc">
+                Experiment freely without pressure. Unlimited undos, move hints, and positional threat evaluation.
+              </p>
+            </div>
+            <div class="mode-card-footer">
+              <span>No Stats Penalty</span>
+              <span class="mode-play-action">Practice →</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW: GAMEPLAY (3-COLUMN LAYOUT)
+         ==================================================================== -->
+    <section class="view-section" id="section-game">
+      <div class="game-layout">
+
+        <!-- LEFT SIDEBAR: PLAYERS & TRACKERS -->
+        <aside class="game-sidebar game-sidebar-left">
+          <!-- Player 1 Card: Tigers -->
+          <div class="player-card" id="tigerPlayerCard">
+            <div class="player-header">
+              <div class="player-avatar">
+                <img src="assets/images/tiger.svg" alt="Tiger Piece">
+              </div>
+              <div class="player-details">
+                <div class="player-name" id="tigerPlayerName">The Tigers</div>
+                <div class="player-subtext">4 Prowling Hunters</div>
+              </div>
+              <div class="player-clock" id="tigerClockDisplay">∞</div>
+            </div>
+
+            <!-- Tiger Trapped Indicator -->
+            <div class="piece-tracker-box">
+              <div class="tracker-title">
+                <span>TIGER MOBILITY</span>
+                <span class="text-tiger">Status</span>
+              </div>
+              <div class="tiger-trap-slots" id="tigerTrapsContainer">
+                <div class="tiger-status-slot free">T1: Free</div>
+                <div class="tiger-status-slot free">T2: Free</div>
+                <div class="tiger-status-slot free">T3: Free</div>
+                <div class="tiger-status-slot free">T4: Free</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Player 2 Card: Goats -->
+          <div class="player-card active-turn" id="goatPlayerCard">
+            <div class="player-header">
+              <div class="player-avatar">
+                <img src="assets/images/goat.svg" alt="Goat Piece">
+              </div>
+              <div class="player-details">
+                <div class="player-name" id="goatPlayerName">The Goats</div>
+                <div class="player-subtext">20 Mountain Goats</div>
+              </div>
+              <div class="player-clock" id="goatClockDisplay">∞</div>
+            </div>
+
+            <!-- Goats to Place visualizer (20 slots) -->
+            <div class="piece-tracker-box">
+              <div class="tracker-title">
+                <span>UNPLACED GOATS (REMAINING)</span>
+                <span class="text-gold" id="goatsToPlaceCounter">20 / 20</span>
+              </div>
+              <div class="slots-container" id="goatsToPlaceSlots">
+                <!-- 20 small round slots dynamically generated -->
+              </div>
+            </div>
+
+            <!-- Captured Goats visualizer (5 slots) -->
+            <div class="piece-tracker-box">
+              <div class="tracker-title">
+                <span>CAPTURED BY TIGERS (5 TO WIN)</span>
+                <span class="text-tiger" id="goatsCapturedCounter">0 / 5</span>
+              </div>
+              <div class="slots-container" id="capturedGoatsSlots" style="gap: 8px;">
+                <!-- 5 captured slots -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Evaluation Meter -->
+          <div class="threat-meter">
+            <div class="threat-labels">
+              <span class="text-tiger">🐅 Tigers Advantage</span>
+              <span class="text-goat">🐐 Goats Advantage</span>
+            </div>
+            <div class="threat-bar-track">
+              <div class="threat-bar-fill" id="threatMeterFill" style="width: 50%;"></div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- CENTER STAGE: BOARD & CANVAS -->
+        <main class="board-stage">
+          <!-- Turn Status Alert Banner -->
+          <div class="turn-banner goats-turn" id="turnAlertBanner">
+            <div class="turn-info">
+              <span class="turn-indicator-dot"></span>
+              <span class="turn-instruction" id="turnInstructionText">Goats' Turn — Place goat on any empty intersection</span>
+            </div>
+            <span class="phase-pill" id="phasePill">Placement Phase</span>
+          </div>
+
+          <!-- Board Wooden Frame -->
+          <div class="board-frame" id="boardContainer">
+            <canvas id="gameCanvas" width="500" height="500"></canvas>
+          </div>
+
+          <!-- Floating Board Controls -->
+          <div class="board-floating-toolbar">
+            <button class="btn btn-sm btn-secondary" id="btnToggleCoords" title="Toggle Board Coordinates">
+              <span>🔤</span> Coordinates
+            </button>
+            <button class="btn btn-sm btn-secondary" id="btnExportPGN" title="Copy Match Moves">
+              <span>📋</span> Copy Moves
+            </button>
+          </div>
+        </main>
+
+        <!-- RIGHT SIDEBAR: MOVE HISTORY & ACTION CONTROLS -->
+        <aside class="game-sidebar game-sidebar-right">
+          <!-- Move History Card -->
+          <div class="card history-card">
+            <div class="history-card-header">
+              <h3 class="title-serif" style="font-size: 1.1rem; color: var(--color-gold-300);">Move History</h3>
+              <span class="badge badge-gold" id="moveCountBadge">Turn 1</span>
+            </div>
+
+            <!-- Move Table -->
+            <div class="move-log-table" id="moveLogContainer">
+              <div style="padding: 24px 12px; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+                No moves played yet.
+              </div>
+            </div>
+          </div>
+
+          <!-- Gameplay Action Controls -->
+          <div class="card">
+            <h4 class="title-serif" style="font-size: 1rem; margin-bottom: 12px; color: var(--color-gold-300);">Match Controls</h4>
+            <div class="game-actions-grid">
+              <button class="btn btn-secondary" id="btnUndo" title="Take back previous move">
+                <span>↩️</span> Undo
+              </button>
+              <button class="btn btn-secondary" id="btnHint" title="Ask AI for tactical hint">
+                <span>💡</span> Hint
+              </button>
+              <button class="btn btn-secondary" id="btnRestart" title="Restart this match">
+                <span>🔄</span> Restart
+              </button>
+              <button class="btn btn-danger" id="btnResign" title="Resign this match">
+                <span>🏳️</span> Resign
+              </button>
+            </div>
+
+            <div style="margin-top: 10px; display: flex; gap: 8px;">
+              <button class="btn btn-outline" id="btnSaveGame" style="flex: 1;" title="Save match to browser">
+                <span>💾</span> Save Match
+              </button>
+              <button class="btn btn-gold" style="flex: 1;" onclick="window.BaghChal.App.openNewGameModal()">
+                <span>⚔️</span> New Match
+              </button>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW: PUZZLES
+         ==================================================================== -->
+    <section class="view-section" id="section-puzzles">
+      <div style="text-align: center; max-width: 680px; margin: 0 auto 36px;">
+        <span class="badge badge-gold">Sharpen Your Mind</span>
+        <h2 class="hero-title" style="font-size: 2.4rem; margin: 8px 0 12px;">Tactical Puzzles</h2>
+        <p style="color: var(--text-secondary);">
+          Master critical endgame patterns. Solve tactical dilemmas where one precise leap or block determines victory.
+        </p>
+      </div>
+
+      <div class="modes-grid" id="puzzlesGrid">
+        <!-- Puzzles injected by App.renderPuzzlesList() -->
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW: LEARN & RULES
+         ==================================================================== -->
+    <section class="view-section" id="section-learn">
+      <div style="text-align: center; max-width: 680px; margin: 0 auto 36px;">
+        <span class="badge badge-gold">Ancient Wisdom</span>
+        <h2 class="hero-title" style="font-size: 2.4rem; margin: 8px 0 12px;">Rules &amp; Strategy</h2>
+        <p style="color: var(--text-secondary);">
+          Learn how to command the four prowling tigers and twenty courageous goats in traditional Nepali Bagh-Chal.
+        </p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 20px; max-width: 820px; margin: 0 auto;">
+        <!-- Card 1 -->
+        <div class="card">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+            <span class="badge badge-gold">Rule 1</span>
+            <h3 class="title-serif" style="font-size: 1.3rem; color: var(--color-gold-300);">The Sacred Alquerque Grid</h3>
+          </div>
+          <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px;">
+            Bagh-Chal is played on a 5×5 grid with 25 intersections. All pieces stand directly on the intersection points. Lines connect points horizontally, vertically, and along specific diagonals (where <code>(row + column)</code> is even).
+          </p>
+          <div style="background: var(--bg-surface-elevated); padding: 12px 16px; border-radius: var(--radius-md); font-size: 0.9rem; border-left: 3px solid var(--color-gold-500);">
+            💡 <strong>Key note:</strong> Not all points have diagonals! Only intersections with even coordinates share diagonal connections. The central point (C3) connects in all 8 directions.
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+            <span class="badge badge-tiger">Rule 2</span>
+            <h3 class="title-serif" style="font-size: 1.3rem; color: var(--color-tiger-500);">The Four Corner Tigers</h3>
+          </div>
+          <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px;">
+            The four tigers begin stationed at the four corners of the board (A1, E1, A5, E5). A tiger can:
+          </p>
+          <ul style="margin-left: 20px; color: var(--text-secondary); line-height: 1.6;">
+            <li><strong>Step:</strong> Move one step along any connected line to an adjacent vacant intersection.</li>
+            <li><strong>Pounce &amp; Capture:</strong> Leap over an adjacent goat into an immediately vacant spot along a straight connected line. The jumped goat is captured and removed permanently.</li>
+          </ul>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+            <span class="badge badge-goat">Rule 3</span>
+            <h3 class="title-serif" style="font-size: 1.3rem; color: var(--color-goat-500);">The Twenty Goats: Placement &amp; Movement</h3>
+          </div>
+          <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px;">
+            Goats start off the board and enter one by one during the <strong>Placement Phase</strong>. Goats always take the first turn of the match.
+          </p>
+          <ul style="margin-left: 20px; color: var(--text-secondary); line-height: 1.6;">
+            <li>During placement, goats <em>cannot move</em> — they can only be placed on an empty intersection.</li>
+            <li>Once all 20 goats have been placed on the board, the <strong>Movement Phase</strong> begins.</li>
+            <li>In the movement phase, goats can move 1 step along any connected line to an adjacent empty intersection. Goats cannot capture tigers.</li>
+          </ul>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="card">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+            <span class="badge badge-gold">Rule 4</span>
+            <h3 class="title-serif" style="font-size: 1.3rem; color: var(--color-gold-300);">Victory &amp; Draw Conditions</h3>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 8px;">
+            <div style="background: rgba(226, 116, 41, 0.12); padding: 14px; border-radius: var(--radius-md); border: 1px solid rgba(226, 116, 41, 0.3);">
+              <h4 style="color: var(--color-tiger-500); margin-bottom: 6px;">🐅 Tigers Win:</h4>
+              <p style="font-size: 0.9rem; color: var(--text-secondary);">By capturing <strong>5 goats</strong>. With 5 goats removed, the remaining herd cannot trap all tigers.</p>
+            </div>
+            <div style="background: rgba(244, 239, 230, 0.08); padding: 14px; border-radius: var(--radius-md); border: 1px solid rgba(244, 239, 230, 0.2);">
+              <h4 style="color: var(--color-goat-500); margin-bottom: 6px;">🐐 Goats Win:</h4>
+              <p style="font-size: 0.9rem; color: var(--text-secondary);">By completely <strong>trapping all 4 tigers</strong> so that none of the tigers can make any legal step or leap.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW: LEADERBOARD
+         ==================================================================== -->
+    <section class="view-section" id="section-leaderboard">
+      <div style="text-align: center; max-width: 680px; margin: 0 auto 36px;">
+        <span class="badge badge-gold">Champions</span>
+        <h2 class="hero-title" style="font-size: 2.4rem; margin: 8px 0 12px;">Leaderboard &amp; Records</h2>
+        <p style="color: var(--text-secondary);">
+          Benchmark your Bagh-Chal prowess against Himalayan masters and view your complete match history.
+        </p>
+      </div>
+
+      <div id="leaderboardContainer" style="max-width: 840px; margin: 0 auto;">
+        <!-- Injected by Leaderboard.render() -->
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW: STATISTICS
+         ==================================================================== -->
+    <section class="view-section" id="section-statistics">
+      <div style="text-align: center; max-width: 680px; margin: 0 auto 36px;">
+        <span class="badge badge-gold">Analytics</span>
+        <h2 class="hero-title" style="font-size: 2.4rem; margin: 8px 0 12px;">Strategic Statistics</h2>
+        <p style="color: var(--text-secondary);">
+          Comprehensive breakdown of your performance, win rates by side, and AI difficulty mastery.
+        </p>
+      </div>
+
+      <div id="statsContainer" style="max-width: 840px; margin: 0 auto;">
+        <!-- Injected by Statistics.render() -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ====================================================================
+       FOOTER
+       ==================================================================== -->
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <img src="assets/images/logo.svg" alt="Bagh-Chal" style="height: 38px;">
+        </div>
+        <ul class="footer-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#game">Play Board</a></li>
+          <li><a href="#puzzles">Puzzles</a></li>
+          <li><a href="#learn">Rules &amp; History</a></li>
+          <li><a href="#statistics">Statistics</a></li>
+        </ul>
+      </div>
+      <div class="footer-bottom">
+        <span>Bagh-Chal: Tiger's Gambit · Preserving Nepal's Living Heritage</span>
+        <span>Crafted with Vanilla Web Standards · High-DPI Canvas · Synthesized Audio</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====================================================================
+       MODALS
+       ==================================================================== -->
+
+  <!-- Modal: New Game Configuration -->
+  <div class="modal-backdrop" id="modal-new-game">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Configure New Match</h3>
+        <button class="modal-close" aria-label="Close dialog">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="newGameMode">Game Mode</label>
+          <select class="form-control" id="newGameMode" onchange="window.BaghChal.App.updateNewGameModalFields()">
+            <option value="ai">Single Player vs AI</option>
+            <option value="friend">Local 2-Player (Pass &amp; Play)</option>
+            <option value="online">Online Multiplayer (Quick Match)</option>
+            <option value="practice">Practice Sandbox (No Pressure)</option>
+            <option value="ai_vs_ai">Watch AI vs AI Duel</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="newGameSide">Choose Your Side</label>
+          <select class="form-control" id="newGameSide">
+            <option value="goats">Play as Goats (Moves First)</option>
+            <option value="tigers">Play as Tigers (The Predators)</option>
+            <option value="random">Random Side Assignment</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="aiDifficultyGroup">
+          <label class="form-label" for="newGameDifficulty">AI Difficulty</label>
+          <select class="form-control" id="newGameDifficulty">
+            <option value="beginner">Beginner — Casual moves, easy to trap</option>
+            <option value="easy">Easy — Basic captures, makes blunders</option>
+            <option value="medium" selected>Medium — Balanced tactical play</option>
+            <option value="hard">Hard — 3-ply minimax search, sharp tactics</option>
+            <option value="expert">Expert — Deep alpha-beta tree, master traps</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="newGameTimer">Match Clock</label>
+          <select class="form-control" id="newGameTimer">
+            <option value="none">Untimed (Relaxed Tabletop)</option>
+            <option value="60">1-Minute Blitz (60s)</option>
+            <option value="180">3-Minute Rapid (180s)</option>
+            <option value="300">5-Minute Classical (300s)</option>
+            <option value="600">10-Minute Tournament (600s)</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary modal-close">Cancel</button>
+        <button class="btn btn-gold" id="btnStartGameFromModal">Start Battle</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Settings & Customization -->
+  <div class="modal-backdrop" id="modal-settings">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Settings &amp; Preferences</h3>
+        <button class="modal-close" aria-label="Close dialog">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="settingTheme">Interface Theme</label>
+          <select class="form-control" id="settingTheme">
+            <option value="midnight">Midnight Forest (Deep Green &amp; Gold)</option>
+            <option value="obsidian">Obsidian Night (Charcoal &amp; Amber)</option>
+            <option value="parchment">Ancient Parchment (Light Mode)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="settingBoard">Board Wood Material</label>
+          <select class="form-control" id="settingBoard">
+            <option value="walnut">Royal Walnut (Classic Handcrafted Dark Wood)</option>
+            <option value="teak">Golden Teak (Warm Vibrant Wood Grain)</option>
+            <option value="slate">Himalayan Slate (Carved Mountain Stone)</option>
+            <option value="sandstone">Ancient Sandstone (Pale Temple Stone)</option>
+          </select>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-subtle); margin: 16px 0; padding-top: 12px;">
+          <label class="switch-label">
+            <span>Show Board Coordinates (A-E, 1-5)</span>
+            <input type="checkbox" id="settingCoords" class="switch-input" checked>
+            <span class="switch-track"></span>
+          </label>
+
+          <label class="switch-label">
+            <span>Highlight Legal Moves</span>
+            <input type="checkbox" id="settingLegalMoves" class="switch-input" checked>
+            <span class="switch-track"></span>
+          </label>
+
+          <label class="switch-label">
+            <span>Highlight Last Move Path</span>
+            <input type="checkbox" id="settingLastMove" class="switch-input" checked>
+            <span class="switch-track"></span>
+          </label>
+
+          <label class="switch-label">
+            <span>Synthesized Sound Effects</span>
+            <input type="checkbox" id="settingSound" class="switch-input" checked>
+            <span class="switch-track"></span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary modal-close">Cancel</button>
+        <button class="btn btn-gold" id="btnSaveSettings">Save Preferences</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Game Over Summary -->
+  <div class="modal-backdrop" id="modal-game-over">
+    <div class="modal-dialog" style="text-align: center;">
+      <div class="modal-body" style="padding: 36px 24px;">
+        <div id="gameOverIcon" style="margin-bottom: 16px;"></div>
+        <h2 class="hero-title" id="gameOverTitle" style="font-size: 2.1rem; margin-bottom: 8px;">The Goats Triumph!</h2>
+        <p id="gameOverSubtitle" style="color: var(--text-secondary); margin-bottom: 28px; font-size: 1.05rem;">
+          All 4 tigers have been completely immobilized!
+        </p>
+
+        <div style="display: flex; gap: 12px; justify-content: center;">
+          <button class="btn btn-lg btn-gold" id="btnGameOverPlayAgain">Play Again</button>
+          <button class="btn btn-lg btn-secondary" onclick="window.BaghChal.Router.navigate('home'); document.getElementById('modal-game-over').classList.remove('active');">Home</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Simulated Online Matchmaking -->
+  <div class="modal-backdrop" id="modal-matchmaking">
+    <div class="modal-dialog" style="text-align: center;">
+      <div class="modal-body" style="padding: 36px 24px;">
+        <div style="font-size: 2.8rem; margin-bottom: 16px; animation: pulseDot 1.4s infinite ease-in-out;">🌐</div>
+        <h3 class="title-serif" style="font-size: 1.5rem; color: var(--color-gold-300); margin-bottom: 8px;">Searching for Opponent</h3>
+        <p id="matchmakingCountdown" style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 24px;">Connecting to matchmaking queue...</p>
+        <button class="btn btn-outline" id="btnCancelMatchmaking">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- JavaScript Modules in Dependency Order -->
+  <script src="js/utils/constants.js"></script>
+  <script src="js/utils/helpers.js"></script>
+  <script src="js/utils/dom.js"></script>
+  <script src="js/storage/local-storage.js"></script>
+  <script src="js/storage/data-migration.js"></script>
+  <script src="js/game/rules-engine.js"></script>
+  <script src="js/game/move-validator.js"></script>
+  <script src="js/game/win-detection.js"></script>
+  <script src="js/game/game-state.js"></script>
+  <script src="js/game/move-history.js"></script>
+  <script src="js/game/board-renderer.js"></script>
+  <script src="js/ai/evaluation.js"></script>
+  <script src="js/ai/difficulty.js"></script>
+  <script src="js/ai/ai-engine.js"></script>
+  <script src="js/features/sound.js"></script>
+  <script src="js/features/timer.js"></script>
+  <script src="js/features/hints.js"></script>
+  <script src="js/features/puzzles.js"></script>
+  <script src="js/features/tutorial.js"></script>
+  <script src="js/features/statistics.js"></script>
+  <script src="js/features/leaderboard.js"></script>
+  <script src="js/game/game-controller.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

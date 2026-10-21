@@ -1,0 +1,73 @@
+<!-- ====================================================================
+     PAGE: LEARN & RULES
+     ==================================================================== -->
+<section class="view-section" id="section-learn">
+  <div style="text-align: center; max-width: 680px; margin: 0 auto 36px;">
+    <span class="badge badge-gold">Ancient Wisdom</span>
+    <h2 class="hero-title" style="font-size: 2.4rem; margin: 8px 0 12px;">Rules &amp; Strategy</h2>
+    <p style="color: var(--text-secondary);">
+      Learn how to command the four prowling tigers and twenty courageous goats in traditional Nepali Bagh-Chal.
+    </p>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 20px; max-width: 820px; margin: 0 auto;">
+    <div class="card">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        <span class="badge badge-gold">Rule 1</span>
+        <h3 class="title-serif" style="font-size: 1.3rem; color: var(--color-gold-300);">The Sacred Alquerque Grid</h3>
+      </div>
+      <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px;">
+        Bagh-Chal is played on a 5×5 grid with 25 intersections. All pieces stand directly on the intersection points. Lines connect points horizontally, vertically, and along specific diagonals (where <code>(row + column)</code> is even).
+      </p>
+      <div style="background: var(--bg-surface-elevated); padding: 12px 16px; border-radius: var(--radius-md); font-size: 0.9rem; border-left: 3px solid var(--color-gold-500);">
+        💡 <strong>Key note:</strong> Not all points have diagonals! Only intersections with even coordinates share diagonal connections. The central point (C3) connects in all 8 directions.
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        <span class="badge badge-tiger">Rule 2</span>
+        <h3 class="title-serif" style="font-size: 1.3rem; color: var(--color-tiger-500);">The Four Corner Tigers</h3>
+      </div>
+      <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px;">
+        The four tigers begin stationed at the four corners of the board (A1, E1, A5, E5). A tiger can:
+      </p>
+      <ul style="margin-left: 20px; color: var(--text-secondary); line-height: 1.6;">
+        <li><strong>Step:</strong> Move one step along any connected line to an adjacent vacant intersection.</li>
+        <li><strong>Pounce &amp; Capture:</strong> Leap over an adjacent goat into an immediately vacant spot along a straight connected line. The jumped goat is captured and removed permanently.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        <span class="badge badge-goat">Rule 3</span>
+        <h3 class="title-serif" style="font-size: 1.3rem; color: var(--color-goat-500);">The Twenty Goats: Placement &amp; Movement</h3>
+      </div>
+      <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px;">
+        Goats start off the board and enter one by one during the <strong>Placement Phase</strong>. Goats always take the first turn of the match.
+      </p>
+      <ul style="margin-left: 20px; color: var(--text-secondary); line-height: 1.6;">
+        <li>During placement, goats <em>cannot move</em> — they can only be placed on an empty intersection.</li>
+        <li>Once all 20 goats have been placed on the board, the <strong>Movement Phase</strong> begins.</li>
+        <li>In the movement phase, goats can move 1 step along any connected line to an adjacent empty intersection. Goats cannot capture tigers.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+        <span class="badge badge-gold">Rule 4</span>
+        <h3 class="title-serif" style="font-size: 1.3rem; color: var(--color-gold-300);">Victory &amp; Draw Conditions</h3>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 8px;">
+        <div style="background: rgba(226, 116, 41, 0.12); padding: 14px; border-radius: var(--radius-md); border: 1px solid rgba(226, 116, 41, 0.3);">
+          <h4 style="color: var(--color-tiger-500); margin-bottom: 6px;">🐅 Tigers Win:</h4>
+          <p style="font-size: 0.9rem; color: var(--text-secondary);">By capturing <strong>5 goats</strong>. With 5 goats removed, the remaining herd cannot trap all tigers.</p>
+        </div>
+        <div style="background: rgba(244, 239, 230, 0.08); padding: 14px; border-radius: var(--radius-md); border: 1px solid rgba(244, 239, 230, 0.2);">
+          <h4 style="color: var(--color-goat-500); margin-bottom: 6px;">🐐 Goats Win:</h4>
+          <p style="font-size: 0.9rem; color: var(--text-secondary);">By completely <strong>trapping all 4 tigers</strong> so that none of the tigers can make any legal step or leap.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

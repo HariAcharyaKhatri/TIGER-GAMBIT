@@ -1,0 +1,154 @@
+/* ==========================================================================
+   BAGH-CHAL: TIGER'S GAMBIT — DESIGN SYSTEM & TOKENS
+   ========================================================================== */
+
+:root {
+  /* Brand Palettes */
+  --color-gold-50:  #fffbee;
+  --color-gold-100: #fef3c7;
+  --color-gold-200: #fde68a;
+  --color-gold-300: #fcd34d;
+  --color-gold-400: #f4bf3b;
+  --color-gold-500: #d4a359;
+  --color-gold-600: #b88636;
+  --color-gold-700: #8c6018;
+
+  --color-tiger-500: #e27429;
+  --color-tiger-600: #b84f0b;
+  --color-tiger-glow: rgba(226, 116, 41, 0.35);
+
+  --color-goat-500:  #f4efe6;
+  --color-goat-600:  #ded2be;
+  --color-goat-glow:  rgba(244, 239, 230, 0.4);
+
+  /* Semantic Tones */
+  --color-success: #38a169;
+  --color-danger:  #e53e3e;
+  --color-warning: #dd6b20;
+  --color-info:    #3182ce;
+
+  /* Default Theme: Midnight Forest */
+  --bg-app:        #0f1512;
+  --bg-surface:    #16201a;
+  --bg-surface-elevated: #1e2b24;
+  --bg-surface-hover:    #26382f;
+  --bg-surface-active:   #2d4237;
+
+  --border-subtle: rgba(212, 163, 89, 0.12);
+  --border-strong: rgba(212, 163, 89, 0.28);
+  --border-focus:  var(--color-gold-400);
+
+  --text-primary:   #f4ede2;
+  --text-secondary: #a9bcaf;
+  --text-muted:     #6e8276;
+  --text-inverse:   #0f1512;
+  --text-gold:      #e5c27d;
+
+  /* Typography */
+  --font-serif: 'Cinzel', 'Georgia', 'Palatino', serif;
+  --font-sans:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono:  'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.6);
+  --shadow-glow-gold: 0 0 20px rgba(212, 163, 89, 0.25);
+  --shadow-glow-tiger: 0 0 24px rgba(226, 116, 41, 0.4);
+  --shadow-glow-goat: 0 0 24px rgba(244, 239, 230, 0.3);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 400ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layout */
+  --nav-height: 70px;
+  --container-max: 1280px;
+}
+
+/* Theme: Obsidian Night (Charcoal & Amber) */
+[data-theme="obsidian"] {
+  --bg-app:        #0c0d10;
+  --bg-surface:    #14171d;
+  --bg-surface-elevated: #1d222b;
+  --bg-surface-hover:    #252c38;
+  --bg-surface-active:   #2e3645;
+  --border-subtle: rgba(226, 172, 90, 0.1);
+  --border-strong: rgba(226, 172, 90, 0.25);
+  --text-primary:   #f5f5f7;
+  --text-secondary: #9da6b8;
+  --text-muted:     #636b7a;
+}
+
+/* Theme: Ancient Parchment (Light Mode) */
+[data-theme="parchment"] {
+  --bg-app:        #f5efe4;
+  --bg-surface:    #fdfaf3;
+  --bg-surface-elevated: #ffffff;
+  --bg-surface-hover:    #ede3d2;
+  --bg-surface-active:   #dfd2bd;
+  --border-subtle: rgba(140, 96, 24, 0.18);
+  --border-strong: rgba(140, 96, 24, 0.4);
+  --text-primary:   #261d15;
+  --text-secondary: #5e4c3c;
+  --text-muted:     #8f7a66;
+  --text-inverse:   #fdfaf3;
+  --text-gold:      #8c6018;
+  --shadow-sm: 0 2px 6px rgba(60, 40, 15, 0.08);
+  --shadow-md: 0 4px 14px rgba(60, 40, 15, 0.12);
+  --shadow-lg: 0 10px 30px rgba(60, 40, 15, 0.18);
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Base Resets & Global Typography */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}

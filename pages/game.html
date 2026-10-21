@@ -1,0 +1,159 @@
+<!-- ====================================================================
+     PAGE: GAME BOARD (3-COLUMN LAYOUT)
+     ==================================================================== -->
+<section class="view-section" id="section-game">
+  <div class="game-layout">
+
+    <!-- LEFT SIDEBAR: PLAYERS & TRACKERS -->
+    <aside class="game-sidebar game-sidebar-left">
+      <!-- Player 1 Card: Tigers -->
+      <div class="player-card" id="tigerPlayerCard">
+        <div class="player-header">
+          <div class="player-avatar">
+            <img src="assets/images/tiger.svg" alt="Tiger Piece">
+          </div>
+          <div class="player-details">
+            <div class="player-name" id="tigerPlayerName">The Tigers</div>
+            <div class="player-subtext">4 Prowling Hunters</div>
+          </div>
+          <div class="player-clock" id="tigerClockDisplay">∞</div>
+        </div>
+
+        <!-- Tiger Trapped Indicator -->
+        <div class="piece-tracker-box">
+          <div class="tracker-title">
+            <span>TIGER MOBILITY</span>
+            <span class="text-tiger">Status</span>
+          </div>
+          <div class="tiger-trap-slots" id="tigerTrapsContainer">
+            <div class="tiger-status-slot free">T1: Free</div>
+            <div class="tiger-status-slot free">T2: Free</div>
+            <div class="tiger-status-slot free">T3: Free</div>
+            <div class="tiger-status-slot free">T4: Free</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Player 2 Card: Goats -->
+      <div class="player-card active-turn" id="goatPlayerCard">
+        <div class="player-header">
+          <div class="player-avatar">
+            <img src="assets/images/goat.svg" alt="Goat Piece">
+          </div>
+          <div class="player-details">
+            <div class="player-name" id="goatPlayerName">The Goats</div>
+            <div class="player-subtext">20 Mountain Goats</div>
+          </div>
+          <div class="player-clock" id="goatClockDisplay">∞</div>
+        </div>
+
+        <!-- Goats to Place visualizer (20 slots) -->
+        <div class="piece-tracker-box">
+          <div class="tracker-title">
+            <span>UNPLACED GOATS (REMAINING)</span>
+            <span class="text-gold" id="goatsToPlaceCounter">20 / 20</span>
+          </div>
+          <div class="slots-container" id="goatsToPlaceSlots">
+            <!-- 20 small round slots dynamically generated -->
+          </div>
+        </div>
+
+        <!-- Captured Goats visualizer (5 slots) -->
+        <div class="piece-tracker-box">
+          <div class="tracker-title">
+            <span>CAPTURED BY TIGERS (5 TO WIN)</span>
+            <span class="text-tiger" id="goatsCapturedCounter">0 / 5</span>
+          </div>
+          <div class="slots-container" id="capturedGoatsSlots" style="gap: 8px;">
+            <!-- 5 captured slots -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Evaluation Meter -->
+      <div class="threat-meter">
+        <div class="threat-labels">
+          <span class="text-tiger">🐅 Tigers Advantage</span>
+          <span class="text-goat">🐐 Goats Advantage</span>
+        </div>
+        <div class="threat-bar-track">
+          <div class="threat-bar-fill" id="threatMeterFill" style="width: 50%;"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CENTER STAGE: BOARD & CANVAS -->
+    <main class="board-stage">
+      <!-- Turn Status Alert Banner -->
+      <div class="turn-banner goats-turn" id="turnAlertBanner">
+        <div class="turn-info">
+          <span class="turn-indicator-dot"></span>
+          <span class="turn-instruction" id="turnInstructionText">Goats' Turn — Place goat on any empty intersection</span>
+        </div>
+        <span class="phase-pill" id="phasePill">Placement Phase</span>
+      </div>
+
+      <!-- Board Wooden Frame -->
+      <div class="board-frame" id="boardContainer">
+        <canvas id="gameCanvas" width="500" height="500"></canvas>
+      </div>
+
+      <!-- Floating Board Controls -->
+      <div class="board-floating-toolbar">
+        <button class="btn btn-sm btn-secondary" id="btnToggleCoords" title="Toggle Board Coordinates">
+          <span>🔤</span> Coordinates
+        </button>
+        <button class="btn btn-sm btn-secondary" id="btnExportPGN" title="Copy Match Moves">
+          <span>📋</span> Copy Moves
+        </button>
+      </div>
+    </main>
+
+    <!-- RIGHT SIDEBAR: MOVE HISTORY & ACTION CONTROLS -->
+    <aside class="game-sidebar game-sidebar-right">
+      <!-- Move History Card -->
+      <div class="card history-card">
+        <div class="history-card-header">
+          <h3 class="title-serif" style="font-size: 1.1rem; color: var(--color-gold-300);">Move History</h3>
+          <span class="badge badge-gold" id="moveCountBadge">Turn 1</span>
+        </div>
+
+        <!-- Move Table -->
+        <div class="move-log-table" id="moveLogContainer">
+          <div style="padding: 24px 12px; text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+            No moves played yet.
+          </div>
+        </div>
+      </div>
+
+      <!-- Gameplay Action Controls -->
+      <div class="card">
+        <h4 class="title-serif" style="font-size: 1rem; margin-bottom: 12px; color: var(--color-gold-300);">Match Controls</h4>
+        <div class="game-actions-grid">
+          <button class="btn btn-secondary" id="btnUndo" title="Take back previous move">
+            <span>↩️</span> Undo
+          </button>
+          <button class="btn btn-secondary" id="btnHint" title="Ask AI for tactical hint">
+            <span>💡</span> Hint
+          </button>
+          <button class="btn btn-secondary" id="btnRestart" title="Restart this match">
+            <span>🔄</span> Restart
+          </button>
+          <button class="btn btn-danger" id="btnResign" title="Resign this match">
+            <span>🏳️</span> Resign
+          </button>
+        </div>
+
+        <div style="margin-top: 10px; display: flex; gap: 8px;">
+          <button class="btn btn-outline" id="btnSaveGame" style="flex: 1;" title="Save match to browser">
+            <span>💾</span> Save Match
+          </button>
+          <button class="btn btn-gold" style="flex: 1;" onclick="window.BaghChal.App.openNewGameModal()">
+            <span>⚔️</span> New Match
+          </button>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+</section>
