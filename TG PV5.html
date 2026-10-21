@@ -1,0 +1,3476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bagh-Chal — Tiger's Gambit</title>
+    <style>
+        :root {
+            --bg: #0f0e17;
+            --surface: #1a1925;
+            --surface2: #222132;
+            --gold: #d4a574;
+            --gold-bright: #f0c878;
+            --text: #e0d5c1;
+            --text-dim: #9a9288;
+            --accent: #e8a850;
+            --danger: #c0392b;
+            --success: #2ecc71;
+            --tiger: #f0851a;
+            --goat: #f5f0e8;
+            --border: #2a2540;
+            --card-bg: #1c1b2b;
+            --nav-bg: #14131f;
+            --easy: #5cb870;
+            --medium: #e8a850;
+            --hard: #e05540;
+            --expert: #9b59b6;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.5);
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background: var(--bg);
+            font-family: 'Segoe UI', 'Georgia', 'Times New Roman', serif;
+            min-height: 100vh;
+            color: var(--text);
+            background-image: radial-gradient(ellipse at 50% 0%, #1e1c30 0%, #0f0e17 60%);
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            width: 100%;
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 58px;
+            gap: 8px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f0851a 0%, #c05a0a 60%, #7a2a04 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            box-shadow: 0 0 18px rgba(240, 133, 26, 0.45);
+            position: relative;
+            overflow: hidden;
+        }
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 22%;
+            width: 30%;
+            height: 40%;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: rotate(-20deg);
+        }
+        .logo-text {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-weight: 900;
+            font-size: 1.3em;
+            letter-spacing: 1px;
+            background: linear-gradient(180deg, #f5c878 0%, #d4953a 50%, #8b5a1e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5));
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .nav-link {
+            padding: 7px 14px;
+            border-radius: 22px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.82em;
+            letter-spacing: 0.6px;
+            transition: var(--transition);
+            color: #b0a89c;
+            text-decoration: none;
+            white-space: nowrap;
+            background: transparent;
+            border: none;
+            font-family: inherit;
+        }
+        .nav-link:hover,
+        .nav-link.active {
+            color: #f0c878;
+            background: rgba(240, 200, 120, 0.08);
+        }
+        .nav-link.btn-auth {
+            padding: 7px 16px;
+            border-radius: 22px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            font-size: 0.78em;
+            text-transform: uppercase;
+            border: 2px solid var(--gold);
+            color: var(--gold-bright);
+            transition: var(--transition);
+            background: transparent;
+            cursor: pointer;
+            font-family: inherit;
+            white-space: nowrap;
+        }
+        .nav-link.btn-auth:hover {
+            background: rgba(212, 165, 116, 0.15);
+            box-shadow: 0 0 16px rgba(212, 165, 116, 0.25);
+        }
+        .nav-link.btn-auth.signup-btn {
+            background: var(--gold);
+            color: #1a1208;
+            border-color: var(--gold);
+            font-weight: 800;
+        }
+        .nav-link.btn-auth.signup-btn:hover {
+            background: #e8b860;
+            box-shadow: 0 0 20px rgba(232, 168, 80, 0.5);
+        }
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.6em;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 8px;
+        }
+        @media (max-width: 720px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 58px;
+                left: 0;
+                right: 0;
+                background: var(--nav-bg);
+                flex-direction: column;
+                padding: 12px 16px;
+                gap: 6px;
+                border-bottom: 1px solid var(--border);
+                box-shadow: var(--shadow-lg);
+                z-index: 199;
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .nav-link {
+                width: 100%;
+                text-align: center;
+                padding: 10px 14px;
+            }
+            .nav-link.btn-auth {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1100px;
+            padding: 20px 16px 40px;
+            flex: 1;
+        }
+
+        .section {
+            display: none;
+            animation: fadeSlideIn 0.4s ease;
+        }
+        .section.active {
+            display: block;
+        }
+        @keyframes fadeSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero {
+            text-align: center;
+            padding: 30px 10px 20px;
+        }
+        .hero-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 8px;
+        }
+        .hero-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f0851a 0%, #b8500e 70%, #6a2000 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8em;
+            box-shadow: 0 0 40px rgba(240, 133, 26, 0.5), 0 8px 24px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+            animation: heroGlow 2.5s ease-in-out infinite;
+        }
+        @keyframes heroGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 35px rgba(240, 133, 26, 0.45), 0 8px 24px rgba(0, 0, 0, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 60px rgba(240, 160, 40, 0.7), 0 8px 30px rgba(0, 0, 0, 0.5);
+            }
+        }
+        .hero-icon::after {
+            content: '';
+            position: absolute;
+            top: 12%;
+            left: 20%;
+            width: 35%;
+            height: 45%;
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: 50%;
+            transform: rotate(-25deg);
+        }
+        .hero-title {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-weight: 900;
+            font-size: clamp(2em, 6vw, 3.2em);
+            letter-spacing: 2px;
+            background: linear-gradient(180deg, #fdd890 0%, #d4953a 45%, #7a4518 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.5));
+            line-height: 1.1;
+        }
+        .hero-subtitle {
+            font-size: 0.9em;
+            color: #b8956e;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+        .hero-desc {
+            max-width: 520px;
+            margin: 10px auto 0;
+            color: #9a9288;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .play-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .play-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 22px 18px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid var(--border);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+        }
+        .play-card:hover {
+            transform: translateY(-4px);
+            border-color: #5a4570;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+        }
+        .play-card.card-ai:hover {
+            border-color: #e8a850;
+            box-shadow: 0 12px 32px rgba(232, 168, 80, 0.2);
+        }
+        .play-card.card-online:hover {
+            border-color: #5dade2;
+            box-shadow: 0 12px 32px rgba(93, 173, 226, 0.2);
+        }
+        .play-card.card-friend:hover {
+            border-color: #2ecc71;
+            box-shadow: 0 12px 32px rgba(46, 204, 113, 0.2);
+        }
+        .play-card.card-leaderboard:hover {
+            border-color: #9b59b6;
+            box-shadow: 0 12px 32px rgba(155, 89, 182, 0.2);
+        }
+        .card-icon {
+            font-size: 3em;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .card-title {
+            font-weight: 800;
+            font-size: 1.1em;
+            letter-spacing: 0.5px;
+            color: #e0d5c1;
+        }
+        .card-desc {
+            font-size: 0.78em;
+            color: #8a8278;
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+        .card-badge {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            font-size: 0.65em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+        .badge-popular {
+            background: #2e1518;
+            color: #f09080;
+            border: 1px solid #e05540;
+        }
+        .badge-new {
+            background: #152530;
+            color: #80c8f0;
+            border: 1px solid #5dade2;
+        }
+
+        .game-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+        .game-top-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 500px;
+        }
+        .btn-back {
+            padding: 7px 16px;
+            border-radius: 22px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.78em;
+            letter-spacing: 1px;
+            background: transparent;
+            border: 2px solid #5a4570;
+            color: #b0a8c0;
+            transition: var(--transition);
+            font-family: inherit;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .btn-back:hover {
+            border-color: #8a70b0;
+            color: #d0c8e0;
+            box-shadow: 0 0 14px rgba(140, 120, 180, 0.3);
+        }
+        .game-mode-badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.7em;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            border: 1px solid;
+        }
+        .mode-ai {
+            background: #1f1a14;
+            color: #f0c878;
+            border-color: #e8a850;
+        }
+        .mode-friend {
+            background: #141f18;
+            color: #a0e8b0;
+            border-color: #2ecc71;
+        }
+        .mode-online {
+            background: #141a24;
+            color: #90d0f0;
+            border-color: #5dade2;
+        }
+        .board-outer {
+            position: relative;
+            background: #3e2216;
+            border-radius: 20px;
+            padding: clamp(6px, 2vw, 14px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            border: 3px solid #5a3520;
+            width: 100%;
+            max-width: 500px;
+        }
+        .board-inner {
+            background: #c8a882;
+            border-radius: 8px;
+            padding: clamp(2px, 0.8vw, 5px);
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+            width: 100%;
+        }
+        canvas {
+            display: block;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+            height: auto;
+            touch-action: manipulation;
+        }
+        .settings-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            align-items: center;
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            width: 100%;
+            max-width: 500px;
+        }
+        .settings-group {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .settings-label {
+            font-size: 0.65em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #7a7a8a;
+            white-space: nowrap;
+        }
+        .btn-sm {
+            padding: 5px 11px;
+            border-radius: 18px;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.68em;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            font-family: inherit;
+            background: var(--surface2);
+            color: #8a8a9a;
+            white-space: nowrap;
+            text-transform: uppercase;
+        }
+        .btn-sm:hover {
+            border-color: #5a5a7a;
+            color: #c0c0d0;
+        }
+        .btn-sm.active-goats {
+            background: #1f2a1a;
+            border-color: #6a8a5a;
+            color: #c8e0b8;
+            box-shadow: 0 0 12px rgba(150, 190, 130, 0.25);
+        }
+        .btn-sm.active-tigers {
+            background: #2a1a10;
+            border-color: #c88040;
+            color: #f0c890;
+            box-shadow: 0 0 12px rgba(240, 133, 26, 0.3);
+        }
+        .btn-sm.active-easy {
+            background: #142618;
+            border-color: #5cb870;
+            color: #a0e0b0;
+            box-shadow: 0 0 10px rgba(92, 184, 112, 0.25);
+        }
+        .btn-sm.active-medium {
+            background: #261e12;
+            border-color: #e8a850;
+            color: #f0c878;
+            box-shadow: 0 0 10px rgba(232, 168, 80, 0.25);
+        }
+        .btn-sm.active-hard {
+            background: #261316;
+            border-color: #e05540;
+            color: #f09080;
+            box-shadow: 0 0 10px rgba(224, 85, 64, 0.25);
+        }
+        .btn-sm.active-expert {
+            background: #1a1228;
+            border-color: #9b59b6;
+            color: #d4b8f0;
+            box-shadow: 0 0 12px rgba(155, 89, 182, 0.35);
+        }
+        .btn-sm.btn-hint {
+            background: #1a1a28;
+            border-color: #6a6ac0;
+            color: #b0b0f0;
+            animation: hintGlow 2s ease-in-out infinite;
+        }
+        @keyframes hintGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 8px rgba(120, 120, 220, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 18px rgba(140, 140, 240, 0.5);
+            }
+        }
+        .btn-sm.btn-hint:hover {
+            background: #222240;
+            border-color: #8080e0;
+            color: #d0d0ff;
+            box-shadow: 0 0 22px rgba(150, 150, 255, 0.6);
+        }
+        .info-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            width: 100%;
+            max-width: 500px;
+        }
+        .info-card {
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            text-align: center;
+            min-width: 70px;
+            flex: 1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .info-label {
+            font-size: 0.6em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #7a7a8a;
+            margin-bottom: 2px;
+        }
+        .info-value {
+            font-size: clamp(0.9em, 2.5vw, 1.2em);
+            font-weight: 700;
+            color: var(--text);
+        }
+        .turn-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            padding: 8px 16px;
+            background: var(--surface);
+            border-radius: 30px;
+            border: 2px solid var(--border);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+            transition: all 0.3s ease;
+            min-width: 200px;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 500px;
+        }
+        .turn-indicator.tigers-turn {
+            border-color: #f0851a;
+            box-shadow: 0 0 20px rgba(240, 133, 26, 0.35);
+        }
+        .turn-indicator.goats-turn {
+            border-color: #e8e0d0;
+            box-shadow: 0 0 20px rgba(232, 224, 208, 0.25);
+        }
+        .turn-indicator.ai-thinking {
+            border-color: #a0a0ff;
+            box-shadow: 0 0 24px rgba(140, 140, 255, 0.45);
+            animation: thinkingPulse 0.8s ease-in-out infinite;
+        }
+        @keyframes thinkingPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 16px rgba(140, 140, 255, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(160, 160, 255, 0.6);
+            }
+        }
+        .turn-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        .turn-dot.tiger-dot {
+            background: radial-gradient(circle at 40% 35%, #faa53d, #c05a0a);
+            box-shadow: 0 0 10px rgba(240, 133, 26, 0.6);
+        }
+        .turn-dot.goat-dot {
+            background: radial-gradient(circle at 40% 35%, #ffffff, #c8c0b0);
+            box-shadow: 0 0 10px rgba(220, 210, 190, 0.5);
+        }
+        .turn-dot.ai-dot {
+            background: radial-gradient(circle at 40% 35%, #c0c0ff, #6060cc);
+            box-shadow: 0 0 12px rgba(150, 150, 255, 0.6);
+            animation: dotPulse 0.6s ease-in-out infinite;
+        }
+        @keyframes dotPulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.3);
+            }
+        }
+        .turn-text {
+            font-weight: 700;
+            font-size: clamp(0.7em, 2.2vw, 0.9em);
+            color: var(--text);
+            letter-spacing: 1px;
+        }
+        .phase-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.65em;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .phase-placement {
+            background: #1e2a3a;
+            color: #5dade2;
+            border: 1px solid #5dade2;
+        }
+        .phase-movement {
+            background: #1a2e1f;
+            color: #2ecc71;
+            border: 1px solid #2ecc71;
+        }
+        .btn {
+            padding: 10px 22px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 0.85em;
+            transition: var(--transition);
+            font-family: inherit;
+            text-transform: uppercase;
+        }
+        .btn-restart {
+            background: #3d2210;
+            color: #e0c8a0;
+            border: 2px solid #7a4a20;
+        }
+        .btn-restart:hover {
+            background: #5a3218;
+            border-color: #b8783a;
+            box-shadow: 0 4px 16px rgba(180, 120, 60, 0.3);
+        }
+        .btn-undo {
+            background: #1a1a28;
+            color: #b0b0d0;
+            border: 2px solid #4a4a6a;
+        }
+        .btn-undo:hover {
+            background: #252540;
+            border-color: #6a6a90;
+            box-shadow: 0 4px 14px rgba(100, 100, 160, 0.3);
+        }
+        .btn-undo:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        .btn-save {
+            background: #1a2018;
+            color: #a0c8a0;
+            border: 2px solid #4a6a3a;
+        }
+        .btn-save:hover {
+            background: #253020;
+            border-color: #6a9a5a;
+            box-shadow: 0 4px 14px rgba(100, 160, 80, 0.3);
+        }
+        .btn-quit {
+            background: #2a1010;
+            color: #f08080;
+            border: 2px solid #7a3030;
+        }
+        .btn-quit:hover {
+            background: #3d1818;
+            border-color: #b05050;
+            box-shadow: 0 4px 14px rgba(200, 60, 60, 0.3);
+        }
+        .action-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            width: 100%;
+            max-width: 500px;
+        }
+        .move-log {
+            background: var(--surface);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            padding: 8px 10px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 120px;
+            overflow-y: auto;
+            font-size: 0.7em;
+            color: #8a8a9a;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 0.5px;
+            display: none;
+        }
+        .move-log.visible {
+            display: block;
+        }
+        .move-log .log-entry {
+            padding: 2px 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .move-log .log-entry.tiger-move {
+            color: #f0a860;
+        }
+        .move-log .log-entry.goat-move {
+            color: #d8d0c0;
+        }
+        .move-log .log-entry.capture-move {
+            color: #ff6050;
+            font-weight: 700;
+        }
+        .timer-display {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #e0d5c1;
+            letter-spacing: 2px;
+            text-align: center;
+            min-width: 60px;
+        }
+        .timer-warning {
+            color: #f0a040;
+            animation: timerPulse 0.5s ease-in-out infinite;
+        }
+        .timer-danger {
+            color: #e04040;
+            animation: timerPulse 0.3s ease-in-out infinite;
+        }
+        @keyframes timerPulse {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.4;
+            }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 300;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        .modal {
+            background: #1e2a3a;
+            border-radius: 20px;
+            padding: 24px 28px;
+            text-align: center;
+            border: 2px solid #3a5068;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin: 16px;
+            max-width: 420px;
+            width: 100%;
+            position: relative;
+        }
+        @keyframes popIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .modal h2 {
+            font-size: 1.6em;
+            margin-bottom: 4px;
+            letter-spacing: 1px;
+        }
+        .modal .winner-icon {
+            font-size: 3.5em;
+            display: block;
+            margin: 6px 0;
+        }
+        .modal .btn {
+            margin-top: 12px;
+            font-size: 0.9em;
+            padding: 10px 24px;
+        }
+        .win-tigers {
+            color: #f0851a;
+        }
+        .win-goats {
+            color: #e8e0d0;
+        }
+        .draw-text {
+            color: #b0b0b0;
+        }
+        .modal input {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 2px solid #3a5068;
+            background: #141e2a;
+            color: #e0d5c1;
+            font-size: 0.9em;
+            font-family: inherit;
+            margin: 6px 0;
+            transition: var(--transition);
+        }
+        .modal input:focus {
+            outline: none;
+            border-color: #e8a850;
+            box-shadow: 0 0 12px rgba(232, 168, 80, 0.25);
+        }
+        .modal .btn-submit {
+            background: #e8a850;
+            color: #1a1208;
+            border: none;
+            font-weight: 800;
+            padding: 10px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85em;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: var(--transition);
+            margin-top: 8px;
+        }
+        .modal .btn-submit:hover {
+            background: #f0c060;
+            box-shadow: 0 0 20px rgba(232, 168, 80, 0.5);
+        }
+        .modal .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: #8899bb;
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+        .modal .close-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background: var(--surface);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+        }
+        .leaderboard-table th,
+        .leaderboard-table td {
+            padding: 10px 14px;
+            text-align: center;
+            font-size: 0.85em;
+            border-bottom: 1px solid var(--border);
+        }
+        .leaderboard-table th {
+            background: var(--surface2);
+            color: #b0a89c;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.7em;
+        }
+        .leaderboard-table tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .rank-1 {
+            color: #ffd700;
+            font-weight: 900;
+            font-size: 1.2em;
+        }
+        .rank-2 {
+            color: #c0c0c0;
+            font-weight: 800;
+        }
+        .rank-3 {
+            color: #cd7f32;
+            font-weight: 800;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #6a6a7a;
+        }
+        .empty-state .empty-icon {
+            font-size: 4em;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .learn-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .learn-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 18px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        }
+        .learn-card h3 {
+            font-size: 1em;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            color: #f0c878;
+        }
+        .learn-card p,
+        .learn-card li {
+            font-size: 0.8em;
+            color: #9a9288;
+            line-height: 1.5;
+        }
+        .learn-card ul {
+            padding-left: 18px;
+        }
+
+        .searching-animation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 30px;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #3a5068;
+            border-top: 4px solid #f0c878;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .dot-bounce {
+            display: flex;
+            gap: 6px;
+        }
+        .dot-bounce span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #f0c878;
+            animation: bounce 1.2s ease-in-out infinite;
+        }
+        .dot-bounce span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .dot-bounce span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        @keyframes bounce {
+            0%,
+            80%,
+            100% {
+                transform: scale(0.6);
+                opacity: 0.4;
+            }
+            40% {
+                transform: scale(1.3);
+                opacity: 1;
+            }
+        }
+
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 350;
+            overflow: hidden;
+        }
+        .confetti-piece {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            animation: confettiFall 2.5s ease-out forwards;
+        }
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+            80% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(105vh) rotate(720deg) scale(0.3);
+                opacity: 0;
+            }
+        }
+
+        .keyboard-hint {
+            font-size: 0.6em;
+            color: #5a5a6a;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 420px) {
+            .hero-title {
+                font-size: 1.5em;
+                letter-spacing: 1px;
+            }
+            .hero-icon {
+                width: 56px;
+                height: 56px;
+                font-size: 2em;
+            }
+            .play-cards {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .play-card {
+                padding: 16px 14px;
+            }
+            .board-outer {
+                padding: 4px;
+                border-radius: 12px;
+                border-width: 2px;
+            }
+            .board-inner {
+                padding: 2px;
+                border-radius: 3px;
+            }
+            .info-card {
+                padding: 5px 7px;
+                min-width: 45px;
+                border-radius: 6px;
+            }
+            .info-value {
+                font-size: 0.85em;
+            }
+            .info-label {
+                font-size: 0.5em;
+                letter-spacing: 1px;
+            }
+            .turn-indicator {
+                padding: 6px 8px;
+                gap: 5px;
+                min-width: auto;
+                border-radius: 18px;
+            }
+            .turn-text {
+                font-size: 0.65em;
+            }
+            .turn-dot {
+                width: 12px;
+                height: 12px;
+            }
+            .btn-sm {
+                padding: 3px 7px;
+                font-size: 0.6em;
+                letter-spacing: 0.5px;
+                border-radius: 10px;
+            }
+            .settings-label {
+                font-size: 0.5em;
+            }
+            .btn {
+                padding: 7px 14px;
+                font-size: 0.7em;
+            }
+            .modal {
+                padding: 16px 18px;
+                border-radius: 12px;
+            }
+            .modal h2 {
+                font-size: 1.2em;
+            }
+            .nav-logo .logo-text {
+                font-size: 1em;
+            }
+            .logo-icon {
+                width: 30px;
+                height: 30px;
+                font-size: 1.1em;
+            }
+            .navbar {
+                height: 48px;
+                padding: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar" id="navbar">
+        <a class="nav-logo" onclick="navigateTo('home')" title="Bagh-Chal Home">
+            <div class="logo-icon">🐅</div>
+            <span class="logo-text">Bagh-Chal</span>
+        </a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">☰</button>
+        <div class="nav-links" id="navLinks">
+            <button class="nav-link active" data-nav="home" onclick="navigateTo('home')">🎮 Play</button>
+            <button class="nav-link" data-nav="leaderboard" onclick="navigateTo('leaderboard')">🏆 Leaderboard</button>
+            <button class="nav-link" data-nav="learn" onclick="navigateTo('learn')">📖 Learn</button>
+            <button class="nav-link btn-auth" onclick="openModal('login')">Login</button>
+            <button class="nav-link btn-auth signup-btn" onclick="openModal('signup')">Sign Up</button>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <section class="section active" id="section-home">
+            <div class="hero">
+                <div class="hero-logo"><div class="hero-icon">🐅</div></div>
+                <h1 class="hero-title">Bagh-Chal</h1>
+                <p class="hero-subtitle">Tiger's Gambit · The Ancient Game of Nepal</p>
+                <p class="hero-desc">A strategic hunt unfolds on a 5×5 board. Four tigers prowl to capture goats, while twenty goats strive to trap the mighty predators. Outwit your opponent in this timeless battle of wits.</p>
+            </div>
+            <div class="play-cards">
+                <div class="play-card card-ai" onclick="startGame('ai')">
+                    <span class="card-icon">🤖</span>
+                    <div class="card-title">Play vs AI</div>
+                    <div class="card-desc">Challenge the computer at Easy, Medium, Hard, or Expert level.</div>
+                    <span class="card-badge badge-popular">Popular</span>
+                </div>
+                <div class="play-card card-online" onclick="startOnlineMatchmaking()">
+                    <span class="card-icon">🌐</span>
+                    <div class="card-title">Play Online</div>
+                    <div class="card-desc">Match with a random opponent online and test your skills.</div>
+                    <span class="card-badge badge-new">Quick Match</span>
+                </div>
+                <div class="play-card card-friend" onclick="startGame('friend')">
+                    <span class="card-icon">👥</span>
+                    <div class="card-title">Play with a Friend</div>
+                    <div class="card-desc">Local two-player mode — pass the device and play together.</div>
+                </div>
+                <div class="play-card card-leaderboard" onclick="navigateTo('leaderboard')">
+                    <span class="card-icon">🏆</span>
+                    <div class="card-title">View Leaderboard</div>
+                    <div class="card-desc">See top players, your stats, and recent match results.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="section-game">
+            <div class="game-wrapper" id="gameWrapper"></div>
+        </section>
+
+        <section class="section" id="section-leaderboard">
+            <div style="text-align:center;padding:10px 0;">
+                <h2 style="font-family:Georgia,serif;font-size:1.8em;letter-spacing:1px;color:#f0c878;">🏆 Leaderboard</h2>
+                <p style="color:#8a8278;font-size:0.85em;">Top players &amp; recent matches</p>
+            </div>
+            <div id="leaderboardContent" style="max-width:600px;margin:0 auto;"></div>
+            <div id="statsDashboard" style="max-width:600px;margin:20px auto;"></div>
+        </section>
+
+        <section class="section" id="section-learn">
+            <div style="text-align:center;padding:10px 0;">
+                <h2 style="font-family:Georgia,serif;font-size:1.8em;letter-spacing:1px;color:#f0c878;">📖 How to Play</h2>
+                <p style="color:#8a8278;font-size:0.85em;">Master the ancient game of Bagh-Chal</p>
+            </div>
+            <div class="learn-grid">
+                <div class="learn-card"><h3>🐅 The Tigers (4)</h3><p>Tigers start at the four corners. They move along lines to adjacent empty spots and can <strong>capture</strong> goats by jumping over them to an empty space beyond — like in checkers.</p></div>
+                <div class="learn-card"><h3>🐐 The Goats (20)</h3><p>Goats are placed one by one on any empty spot during the <strong>Placement Phase</strong>. Once all 20 are placed, goats may move one step along any line to an adjacent empty spot.</p></div>
+                <div class="learn-card"><h3>🎯 Winning Conditions</h3><ul><li><strong>Tigers win</strong> by capturing 5 goats.</li><li><strong>Goats win</strong> by trapping all 4 tigers so none can move.</li><li>A stalemate where no legal moves exist awards goats the win.</li></ul></div>
+                <div class="learn-card"><h3>💡 Strategy Tips</h3><ul><li>As goats: control the center and block tiger escape routes.</li><li>As tigers: stay mobile, avoid corners, and hunt isolated goats.</li><li>Placement phase is crucial — spread goats to limit tiger movement early.</li><li>Watch for capture chains — tigers can pounce multiple times!</li></ul></div>
+                <div class="learn-card"><h3>🛤️ The Board</h3><p>The 5×5 grid has 25 intersection points connected by a network of lines — including diagonals and special corner connections. All pieces sit on intersections and move along these lines.</p></div>
+                <div class="learn-card"><h3>📜 History</h3><p>Bagh-Chal (meaning "Tiger's Move") is a traditional Nepali board game dating back centuries. It's played across Nepal and parts of India, beloved for its asymmetric yet deeply balanced gameplay.</p></div>
+            </div>
+        </section>
+    </div>
+
+    <div class="overlay" id="gameOverOverlay" style="display:none;">
+        <div class="modal">
+            <span class="winner-icon" id="winnerIcon"></span>
+            <h2 id="winnerTitle"></h2>
+            <p style="color:#aabbcc;" id="winnerSubtitle"></p>
+            <button class="btn btn-restart" id="btnPlayAgain">Play Again</button>
+            <button class="btn" style="background:transparent;border:2px solid #5a4570;color:#b0a8c0;margin-left:8px;" onclick="navigateTo('home')">🏠 Home</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="modal-login" style="display:none;">
+        <div class="modal">
+            <button class="close-btn" onclick="closeModal('login')">✕</button>
+            <h2 style="color:#f0c878;">🔑 Login</h2>
+            <p style="color:#8a8278;font-size:0.8em;margin-bottom:10px;">Welcome back! Enter your credentials.</p>
+            <input type="text" placeholder="Username or Email" id="loginUser">
+            <input type="password" placeholder="Password" id="loginPass">
+            <button class="btn-submit" onclick="handleLogin()">Login</button>
+            <p style="color:#6a6a7a;font-size:0.7em;margin-top:8px;">Demo: click Login to simulate sign-in.</p>
+        </div>
+    </div>
+
+    <div class="overlay" id="modal-signup" style="display:none;">
+        <div class="modal">
+            <button class="close-btn" onclick="closeModal('signup')">✕</button>
+            <h2 style="color:#f0c878;">✨ Sign Up</h2>
+            <p style="color:#8a8278;font-size:0.8em;margin-bottom:10px;">Create your account and join the hunt!</p>
+            <input type="text" placeholder="Choose a Username" id="signupUser">
+            <input type="email" placeholder="Email Address" id="signupEmail">
+            <input type="password" placeholder="Create Password" id="signupPass">
+            <button class="btn-submit" onclick="handleSignup()">Create Account</button>
+            <p style="color:#6a6a7a;font-size:0.7em;margin-top:8px;">Demo: click Sign Up to simulate registration.</p>
+        </div>
+    </div>
+
+    <div class="overlay" id="matchmakingOverlay" style="display:none;">
+        <div class="modal">
+            <div class="searching-animation">
+                <div class="spinner"></div>
+                <p style="color:#f0c878;font-weight:700;letter-spacing:1px;">Searching for opponent...</p>
+                <div class="dot-bounce"><span></span><span></span><span></span></div>
+                <p style="color:#8a8278;font-size:0.75em;" id="matchmakingTimer">Estimated wait: 3s</p>
+            </div>
+            <button class="btn" style="background:transparent;border:2px solid #5a4570;color:#b0a8c0;margin-top:8px;" onclick="cancelMatchmaking()">Cancel</button>
+        </div>
+    </div>
+
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <script>
+        (function() {
+            // ────────────────────────────────────────
+            // SOUND ENGINE (Web Audio API - synthesized)
+            // ────────────────────────────────────────
+            const SoundEngine = {
+                ctx: null,
+                init() {
+                    try {
+                        this.ctx = new(window.AudioContext || window.webkitAudioContext)();
+                    } catch (e) {
+                        this.ctx = null;
+                    }
+                },
+                play(freq, type, duration, vol = 0.08, glideTo = null) {
+                    if (!this.ctx) return;
+                    try {
+                        const t = this.ctx.currentTime;
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = type;
+                        osc.frequency.setValueAtTime(freq, t);
+                        if (glideTo) osc.frequency.linearRampToValueAtTime(glideTo, t + duration);
+                        gain.gain.setValueAtTime(vol, t);
+                        gain.gain.exponentialRampToValueAtTime(0.001, t + duration);
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+                        osc.start(t);
+                        osc.stop(t + duration);
+                    } catch (e) { /* silent */ }
+                },
+                moveSound() { this.play(300, 'sine', 0.1, 0.04);
+                    this.play(500, 'sine', 0.08, 0.06, 600); },
+                captureSound() { this.play(150, 'triangle', 0.15, 0.1);
+                    this.play(80, 'sawtooth', 0.12, 0.15);
+                    this.play(300, 'sine', 0.06, 0.08, 450); },
+                placeSound() { this.play(600, 'sine', 0.05, 0.06);
+                    this.play(800, 'sine', 0.04, 0.04); },
+                winSound() {
+                    this.play(523, 'sine', 0.12, 0.15);
+                    setTimeout(() => this.play(659, 'sine', 0.12, 0.15), 150);
+                    setTimeout(() => this.play(784, 'sine', 0.12, 0.2), 300);
+                    setTimeout(() => this.play(1047, 'sine', 0.15, 0.35), 450);
+                },
+                loseSound() { this.play(200, 'sawtooth', 0.1, 0.25);
+                    this.play(150, 'triangle', 0.08, 0.3, 80); },
+                drawSound() { this.play(330, 'triangle', 0.15, 0.3);
+                    this.play(220, 'sine', 0.1, 0.4); },
+                hintSound() { this.play(880, 'sine', 0.04, 0.06);
+                    this.play(1100, 'sine', 0.03, 0.05); },
+                undoSound() { this.play(250, 'triangle', 0.05, 0.08, 180); },
+                clickSound() { this.play(1000, 'sine', 0.03, 0.03); },
+            };
+            SoundEngine.init();
+
+            // ────────────────────────────────────────
+            // CONFETTI SYSTEM
+            // ────────────────────────────────────────
+            function spawnConfetti() {
+                const container = document.getElementById('confettiContainer');
+                const colors = ['#f0851a', '#f0c878', '#ffd700', '#2ecc71', '#5dade2', '#e05540', '#9b59b6', '#f5f0e8',
+                    '#ff6b6b', '#51cf66'
+                ];
+                const pieces = [];
+                for (let i = 0; i < 80; i++) {
+                    const el = document.createElement('div');
+                    el.className = 'confetti-piece';
+                    el.style.left = Math.random() * 100 + '%';
+                    el.style.top = -(Math.random() * 20) + 'px';
+                    el.style.width = (6 + Math.random() * 14) + 'px';
+                    el.style.height = (6 + Math.random() * 14) + 'px';
+                    el.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    el.style.animationDuration = (2 + Math.random() * 3) + 's';
+                    el.style.animationDelay = Math.random() * 0.8 + 's';
+                    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '3px';
+                    container.appendChild(el);
+                    pieces.push(el);
+                }
+                setTimeout(() => {
+                    pieces.forEach(el => el.remove());
+                }, 4000);
+            }
+
+            // ────────────────────────────────────────
+            // NAVIGATION & SECTIONS
+            // ────────────────────────────────────────
+            let currentSection = 'home';
+            const sections = {
+                home: document.getElementById('section-home'),
+                game: document.getElementById('section-game'),
+                leaderboard: document.getElementById('section-leaderboard'),
+                learn: document.getElementById('section-learn'),
+            };
+
+            function navigateTo(section) {
+                if (currentSection === section && section !== 'game') return;
+                if (section === 'game' && gameState && !gameState.gameOver && gameState.totalMoves > 0 && currentSection ===
+                    'game') return;
+                currentSection = section;
+                Object.keys(sections).forEach(k => {
+                    sections[k].classList.toggle('active', k === section);
+                });
+                document.querySelectorAll('.nav-link[data-nav]').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.nav === section);
+                });
+                if (section === 'leaderboard') { renderLeaderboard();
+                    renderStatsDashboard(); }
+                if (section === 'game') ensureGameUI();
+                document.getElementById('navLinks').classList.remove('open');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                SoundEngine.clickSound();
+            }
+
+            document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+                document.getElementById('navLinks').classList.toggle('open');
+            });
+
+            // ────────────────────────────────────────
+            // MODALS
+            // ────────────────────────────────────────
+            function openModal(name) {
+                document.getElementById('modal-' + name).style.display = 'flex';
+                SoundEngine.clickSound();
+            }
+
+            function closeModal(name) {
+                document.getElementById('modal-' + name).style.display = 'none';
+            }
+
+            // Overlay click: close only for login/signup/matchmaking, NOT for game over
+            document.querySelectorAll('.overlay').forEach(ov => {
+                ov.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        if (this.id === 'gameOverOverlay') return; // do not close on background click
+                        if (this.id.startsWith('modal-') || this.id === 'matchmakingOverlay') {
+                            this.style.display = 'none';
+                        }
+                    }
+                });
+            });
+
+            function handleLogin() {
+                const u = document.getElementById('loginUser').value.trim();
+                if (!u) { alert('Please enter a username.'); return; }
+                localStorage.setItem('baghchal_user', u);
+                closeModal('login');
+                updateAuthUI(u);
+                SoundEngine.winSound();
+                alert('✅ Logged in as ' + u + '! (Demo mode)');
+            }
+
+            function handleSignup() {
+                const u = document.getElementById('signupUser').value.trim();
+                if (!u) { alert('Please choose a username.'); return; }
+                localStorage.setItem('baghchal_user', u);
+                closeModal('signup');
+                updateAuthUI(u);
+                SoundEngine.winSound();
+                alert('✅ Account created! Welcome, ' + u + '! (Demo mode)');
+            }
+
+            function updateAuthUI(username) {
+                const authBtns = document.querySelectorAll('.btn-auth');
+                if (username) {
+                    authBtns.forEach(b => {
+                        if (b.classList.contains('signup-btn')) {
+                            b.textContent = '👤 ' + username;
+                            b.onclick = () => {
+                                localStorage.removeItem('baghchal_user');
+                                updateAuthUI(null);
+                                alert('Logged out.');
+                            };
+                        } else { b.style.display = 'none'; }
+                    });
+                } else {
+                    authBtns.forEach(b => {
+                        if (b.classList.contains('signup-btn')) {
+                            b.textContent = 'Sign Up';
+                            b.onclick = () => openModal('signup');
+                        } else { b.style.display = '';
+                            b.textContent = 'Login';
+                            b.onclick = () => openModal('login'); }
+                    });
+                }
+            }
+            const savedUser = localStorage.getItem('baghchal_user');
+            if (savedUser) updateAuthUI(savedUser);
+
+            // ────────────────────────────────────────
+            // LEADERBOARD & STATS
+            // ────────────────────────────────────────
+            function getLeaderboard() {
+                try { return JSON.parse(localStorage.getItem('baghchal_leaderboard') || '[]'); } catch (e) { return []; }
+            }
+
+            function saveToLeaderboard(entry) {
+                const lb = getLeaderboard();
+                lb.unshift({ ...entry, date: new Date().toISOString() });
+                if (lb.length > 50) lb.length = 50;
+                localStorage.setItem('baghchal_leaderboard', JSON.stringify(lb));
+                updateStats(entry);
+            }
+
+            function getStats() {
+                try { return JSON.parse(localStorage.getItem('baghchal_stats') || '{"wins":0,"losses":0,"draws":0,"byMode":{},"streak":0,"bestStreak":0}'); } catch (
+                    e) { return { wins: 0, losses: 0, draws: 0, byMode: {}, streak: 0, bestStreak: 0 }; }
+            }
+
+            function updateStats(entry) {
+                const stats = getStats();
+                if (entry.result === 'win') { stats.wins++;
+                    stats.streak++;
+                    stats.bestStreak = Math.max(stats.bestStreak, stats.streak); } else if (entry.result ===
+                    'loss') { stats.losses++;
+                    stats.streak = 0; } else { stats.draws++;
+                    stats.streak = 0; }
+                const modeKey = entry.mode || 'unknown';
+                if (!stats.byMode[modeKey]) stats.byMode[modeKey] = { wins: 0, losses: 0, draws: 0, total: 0 };
+                stats.byMode[modeKey].total++;
+                if (entry.result === 'win') stats.byMode[modeKey].wins++;
+                else if (entry.result === 'loss') stats.byMode[modeKey].losses++;
+                else stats.byMode[modeKey].draws++;
+                localStorage.setItem('baghchal_stats', JSON.stringify(stats));
+            }
+
+            function renderLeaderboard() {
+                const lb = getLeaderboard();
+                const container = document.getElementById('leaderboardContent');
+                if (lb.length === 0) {
+                    container.innerHTML =
+                        '<div class="empty-state"><span class="empty-icon">📭</span><p>No matches played yet.<br>Play a game to see your results here!</p></div>';
+                    return;
+                }
+                let html =
+                    '<table class="leaderboard-table"><thead><tr><th>#</th><th>Player</th><th>Result</th><th>Mode</th><th>Date</th></tr></thead><tbody>';
+                lb.forEach((entry, i) => {
+                    const rankClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : '';
+                    const dateStr = new Date(entry.date).toLocaleDateString();
+                    const resultEmoji = entry.result === 'win' ? '🏆 Won' : entry.result === 'loss' ? '💔 Lost' :
+                        '🤝 Draw';
+                    html +=
+                        `<tr><td class="${rankClass}">${i+1}</td><td><strong>${escapeHTML(entry.player)}</strong></td><td>${resultEmoji}</td><td>${escapeHTML(entry.mode)}</td><td>${dateStr}</td></tr>`;
+                });
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            }
+
+            function renderStatsDashboard() {
+                const stats = getStats();
+                const container = document.getElementById('statsDashboard');
+                const total = stats.wins + stats.losses + stats.draws;
+                if (total === 0) {
+                    container.innerHTML = '';
+                    return;
+                }
+                const winRate = total > 0 ? Math.round((stats.wins / total) * 100) : 0;
+                let html =
+                    '<div style="background:var(--surface);border-radius:var(--radius);padding:16px;border:1px solid var(--border);margin-top:16px;">';
+                html +=
+                    '<h3 style="color:#f0c878;text-align:center;letter-spacing:1px;margin-bottom:10px;">📊 Your Statistics</h3>';
+                html +=
+                    '<div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;text-align:center;">';
+                html +=
+                    `<div class="info-card"><div class="info-label">Total Games</div><div class="info-value">${total}</div></div>`;
+                html +=
+                    `<div class="info-card"><div class="info-label">Wins</div><div class="info-value" style="color:#2ecc71;">${stats.wins}</div></div>`;
+                html +=
+                    `<div class="info-card"><div class="info-label">Losses</div><div class="info-value" style="color:#e05540;">${stats.losses}</div></div>`;
+                html +=
+                    `<div class="info-card"><div class="info-label">Draws</div><div class="info-value" style="color:#b0b0b0;">${stats.draws}</div></div>`;
+                html +=
+                    `<div class="info-card"><div class="info-label">Win Rate</div><div class="info-value">${winRate}%</div></div>`;
+                html +=
+                    `<div class="info-card"><div class="info-label">Best Streak</div><div class="info-value" style="color:#f0c878;">🔥 ${stats.bestStreak}</div></div>`;
+                html +=
+                    `<div class="info-card"><div class="info-label">Current Streak</div><div class="info-value">${stats.streak > 0 ? '🔥 '+stats.streak : '—'}</div></div>`;
+                html += '</div>';
+                if (Object.keys(stats.byMode).length > 0) {
+                    html +=
+                        '<div style="margin-top:10px;font-size:0.7em;color:#8a8a9a;text-align:center;">';
+                    for (const [mode, data] of Object.entries(stats.byMode)) {
+                        html +=
+                            `<span style="margin:0 8px;">${escapeHTML(mode)}: ${data.wins}W / ${data.losses}L / ${data.draws}D</span>`;
+                    }
+                    html += '</div>';
+                }
+                html += '</div>';
+                container.innerHTML = html;
+            }
+
+            function escapeHTML(str) {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+
+            // ────────────────────────────────────────
+            // MATCHMAKING
+            // ────────────────────────────────────────
+            let matchmakingTimeout = null;
+            let matchmakingInterval = null;
+
+            function startOnlineMatchmaking() {
+                document.getElementById('matchmakingOverlay').style.display = 'flex';
+                let secs = 3;
+                const timerEl = document.getElementById('matchmakingTimer');
+                timerEl.textContent = 'Estimated wait: ' + secs + 's';
+                matchmakingInterval = setInterval(() => {
+                    secs--;
+                    if (secs <= 0) secs = 1;
+                    timerEl.textContent = 'Estimated wait: ' + secs + 's';
+                }, 1000);
+                matchmakingTimeout = setTimeout(() => {
+                    clearInterval(matchmakingInterval);
+                    document.getElementById('matchmakingOverlay').style.display = 'none';
+                    const diffs = ['easy', 'medium', 'medium', 'hard', 'hard', 'expert'];
+                    const randDiff = diffs[Math.floor(Math.random() * diffs.length)];
+                    aiDifficulty = randDiff;
+                    gameMode = 'online';
+                    updateSettingsButtons();
+                    startGame('online');
+                }, 2800 + Math.random() * 2000);
+            }
+
+            function cancelMatchmaking() {
+                clearTimeout(matchmakingTimeout);
+                clearInterval(matchmakingInterval);
+                document.getElementById('matchmakingOverlay').style.display = 'none';
+            }
+
+            // ────────────────────────────────────────
+            // GAME ENGINE
+            // ────────────────────────────────────────
+            const BOARD_SIZE = 5;
+            let CANVAS_SIZE = 500;
+            let SPACING = 100;
+            let MARGIN = 50;
+            let INTERSECTIONS = [];
+            let gameMode = 'ai';
+            let playerSide = 'goats';
+            let aiDifficulty = 'easy';
+            let aiThinking = false;
+            let gameState = null;
+            let canvas = null;
+            let ctx = null;
+            let gameInitialized = false;
+            let moveHistoryStack = [];
+            let hintMove = null;
+            let moveLogEntries = [];
+            let timerSeconds = 0;
+            let timerInterval = null;
+            let timerEnabled = false;
+            let keyboardFocusPos = { r: 2, c: 2 };
+            const MAX_REPETITIONS = 3;
+
+            function calculateBoardDimensions() {
+                const maxWidth = Math.min(window.innerWidth - 32, 500);
+                const maxHeight = Math.min(window.innerHeight - 400, 500);
+                CANVAS_SIZE = Math.max(280, Math.min(maxWidth, maxHeight, 500));
+                SPACING = CANVAS_SIZE / 5;
+                MARGIN = CANVAS_SIZE / 10;
+                buildIntersections();
+            }
+
+            function buildIntersections() {
+                INTERSECTIONS = [];
+                for (let r = 0; r < BOARD_SIZE; r++) {
+                    INTERSECTIONS[r] = [];
+                    for (let c = 0; c < BOARD_SIZE; c++) {
+                        INTERSECTIONS[r][c] = { x: MARGIN + c * SPACING, y: MARGIN + r * SPACING, r, c };
+                    }
+                }
+            }
+            calculateBoardDimensions();
+
+            function buildAdjacency() {
+                const adj = {};
+                for (let r = 0; r < BOARD_SIZE; r++) {
+                    for (let c = 0; c < BOARD_SIZE; c++) {
+                        const key = `${r},${c}`;
+                        adj[key] = [];
+                        if (r > 0) adj[key].push({ r: r - 1, c, dir: 'up' });
+                        if (r < 4) adj[key].push({ r: r + 1, c, dir: 'down' });
+                        if (c > 0) adj[key].push({ r, c: c - 1, dir: 'left' });
+                        if (c < 4) adj[key].push({ r, c: c + 1, dir: 'right' });
+                        if (r === c) {
+                            if (r > 0) adj[key].push({ r: r - 1, c: c - 1, dir: 'diag-main-up' });
+                            if (r < 4) adj[key].push({ r: r + 1, c: c + 1, dir: 'diag-main-down' });
+                        }
+                        if (r + c === 4) {
+                            if (r > 0 && c < 4) adj[key].push({ r: r - 1, c: c + 1, dir: 'diag-anti-up' });
+                            if (r < 4 && c > 0) adj[key].push({ r: r + 1, c: c - 1, dir: 'diag-anti-down' });
+                        }
+                        if (r === 0 && c === 1) adj[key].push({ r: 1, c: 0, dir: 'corner-tl' });
+                        if (r === 1 && c === 0) adj[key].push({ r: 0, c: 1, dir: 'corner-tl' });
+                        if (r === 0 && c === 3) adj[key].push({ r: 1, c: 4, dir: 'corner-tr' });
+                        if (r === 1 && c === 4) adj[key].push({ r: 0, c: 3, dir: 'corner-tr' });
+                        if (r === 3 && c === 0) adj[key].push({ r: 4, c: 1, dir: 'corner-bl' });
+                        if (r === 4 && c === 1) adj[key].push({ r: 3, c: 0, dir: 'corner-bl' });
+                        if (r === 3 && c === 4) adj[key].push({ r: 4, c: 3, dir: 'corner-br' });
+                        if (r === 4 && c === 3) adj[key].push({ r: 3, c: 4, dir: 'corner-br' });
+                    }
+                }
+                return adj;
+            }
+            const ADJACENCY = buildAdjacency();
+
+            function createInitialState() {
+                const board = [];
+                for (let r = 0; r < BOARD_SIZE; r++) {
+                    board[r] = [];
+                    for (let c = 0; c < BOARD_SIZE; c++) board[r][c] = null;
+                }
+                board[0][0] = 'T';
+                board[0][4] = 'T';
+                board[4][0] = 'T';
+                board[4][4] = 'T';
+                return {
+                    board,
+                    goatsToPlace: 20,
+                    goatsCaptured: 0,
+                    currentTurn: 'goats',
+                    phase: 'placement',
+                    selectedPiece: null,
+                    validDestinations: [],
+                    gameOver: false,
+                    winner: null,
+                    message: '',
+                    totalMoves: 0,
+                    repetitionHashes: [] // for threefold draw
+                };
+            }
+
+            function getAdjacent(posKey) { return ADJACENCY[posKey] || []; }
+
+            function posKey(r, c) { return `${r},${c}`; }
+
+            function isWithinBoard(r, c) { return r >= 0 && r < BOARD_SIZE && c >= 0 && c < BOARD_SIZE; }
+
+            function deepCopyBoard(board) { return board.map(row => row.slice()); }
+
+            function cloneState(state) {
+                return {
+                    board: deepCopyBoard(state.board),
+                    goatsToPlace: state.goatsToPlace,
+                    goatsCaptured: state.goatsCaptured,
+                    currentTurn: state.currentTurn,
+                    phase: state.phase,
+                    selectedPiece: state.selectedPiece ? { ...state.selectedPiece } : null,
+                    validDestinations: state.validDestinations.map(d => ({ ...d,
+                        capturedGoat: d.capturedGoat ? { ...d.capturedGoat } : null })),
+                    gameOver: state.gameOver,
+                    winner: state.winner,
+                    message: state.message,
+                    totalMoves: state.totalMoves,
+                    repetitionHashes: [...state.repetitionHashes]
+                };
+            }
+
+            function computeStateHash(state) {
+                // unique string for board, turn, and irreversible counts
+                const boardStr = JSON.stringify(state.board);
+                return `${boardStr}|${state.goatsToPlace}|${state.goatsCaptured}|${state.currentTurn}|${state.phase}`;
+            }
+
+            function checkThreefoldRepetition(state) {
+                const hash = computeStateHash(state);
+                state.repetitionHashes.push(hash);
+                const count = state.repetitionHashes.filter(h => h === hash).length;
+                if (count >= MAX_REPETITIONS) {
+                    state.gameOver = true;
+                    state.winner = null;
+                    state.message = 'Draw by threefold repetition!';
+                    return true;
+                }
+                return false;
+            }
+
+            function countTigersTrappedOnBoard(board) {
+                let trapped = 0;
+                for (let r = 0; r < BOARD_SIZE; r++)
+                    for (let c = 0; c < BOARD_SIZE; c++)
+                        if (board[r][c] === 'T' && getValidTigerMovesOnBoard(board, r, c).length === 0) trapped++;
+                return trapped;
+            }
+
+            function getValidTigerMovesOnBoard(board, r, c) {
+                const moves = [];
+                const adj = getAdjacent(posKey(r, c));
+                for (const nb of adj) {
+                    const nr = nb.r,
+                        nc = nb.c;
+                    if (board[nr][nc] === null) moves.push({ r: nr, c: nc, isCapture: false });
+                    else if (board[nr][nc] === 'G') {
+                        const dr = nr - r,
+                            dc = nc - c;
+                        const beyondR = nr + dr,
+                            beyondC = nc + dc;
+                        if (isWithinBoard(beyondR, beyondC) && board[beyondR][beyondC] === null) {
+                            const beyondAdj = getAdjacent(posKey(nr, nc));
+                            if (beyondAdj.some(nb2 => nb2.r === beyondR && nb2.c === beyondC))
+                                moves.push({ r: beyondR, c: beyondC, isCapture: true,
+                                    capturedGoat: { r: nr, c: nc } });
+                        }
+                    }
+                }
+                return moves;
+            }
+
+            function getValidGoatMovesOnBoard(board, r, c) {
+                const moves = [];
+                for (const nb of getAdjacent(posKey(r, c)))
+                    if (board[nb.r][nb.c] === null) moves.push({ r: nb.r, c: nb.c, isCapture: false });
+                return moves;
+            }
+
+            function anyTigerCanMoveOnBoard(board) {
+                for (let r = 0; r < BOARD_SIZE; r++)
+                    for (let c = 0; c < BOARD_SIZE; c++)
+                        if (board[r][c] === 'T' && getValidTigerMovesOnBoard(board, r, c).length > 0) return true;
+                return false;
+            }
+
+            function anyGoatCanMoveOnBoard(board) {
+                for (let r = 0; r < BOARD_SIZE; r++)
+                    for (let c = 0; c < BOARD_SIZE; c++)
+                        if (board[r][c] === 'G' && getValidGoatMovesOnBoard(board, r, c).length > 0) return true;
+                return false;
+            }
+
+            function getAllTigerMovesFromBoard(board) {
+                const all = [];
+                for (let r = 0; r < BOARD_SIZE; r++)
+                    for (let c = 0; c < BOARD_SIZE; c++)
+                        if (board[r][c] === 'T')
+                            for (const m of getValidTigerMovesOnBoard(board, r, c))
+                                all.push({ fromR: r, fromC: c, toR: m.r, toC: m.c, isCapture: m.isCapture,
+                                    capturedGoat: m.capturedGoat || null });
+                return all;
+            }
+
+            function getAllGoatMovesFromBoard(board) {
+                const all = [];
+                for (let r = 0; r < BOARD_SIZE; r++)
+                    for (let c = 0; c < BOARD_SIZE; c++)
+                        if (board[r][c] === 'G')
+                            for (const m of getValidGoatMovesOnBoard(board, r, c))
+                                all.push({ fromR: r, fromC: c, toR: m.r, toC: m.c });
+                return all;
+            }
+
+            function getAllEmptySpots(board) {
+                const spots = [];
+                for (let r = 0; r < BOARD_SIZE; r++)
+                    for (let c = 0; c < BOARD_SIZE; c++)
+                        if (board[r][c] === null) spots.push({ r, c });
+                return spots;
+            }
+
+            function checkWinConditions(state) {
+                if (state.goatsCaptured >= 5) {
+                    state.gameOver = true;
+                    state.winner = 'tigers';
+                    state.message = 'Tigers have captured 5 goats!';
+                    return true;
+                }
+                const trapped = countTigersTrappedOnBoard(state.board);
+                if (trapped >= 4 && !anyTigerCanMoveOnBoard(state.board)) {
+                    state.gameOver = true;
+                    state.winner = 'goats';
+                    state.message = 'All tigers are trapped! Goats win!';
+                    return true;
+                }
+                if (state.currentTurn === 'tigers' && !anyTigerCanMoveOnBoard(state.board)) {
+                    state.gameOver = true;
+                    state.winner = 'goats';
+                    state.message = 'No tiger can move! Goats win!';
+                    return true;
+                }
+                if (state.currentTurn === 'goats' && state.phase === 'movement' && !anyGoatCanMoveOnBoard(state.board)) {
+                    if (!anyTigerCanMoveOnBoard(state.board)) {
+                        state.gameOver = true;
+                        state.winner = 'goats';
+                        state.message = 'Stalemate! Goats win by default!';
+                        return true;
+                    }
+                    state.currentTurn = 'tigers';
+                    state.selectedPiece = null;
+                    state.validDestinations = [];
+                    return false;
+                }
+                return false;
+            }
+
+            function switchTurn(state) {
+                if (state.gameOver) return;
+                state.currentTurn = state.currentTurn === 'goats' ? 'tigers' : 'goats';
+                state.selectedPiece = null;
+                state.validDestinations = [];
+                hintMove = null;
+                if (state.goatsToPlace <= 0 && state.phase === 'placement') state.phase = 'movement';
+                if (!checkWinConditions(state)) {
+                    if (state.currentTurn === 'tigers' && !anyTigerCanMoveOnBoard(state.board)) checkWinConditions(state);
+                    if (state.currentTurn === 'goats' && state.phase === 'movement' && !anyGoatCanMoveOnBoard(state.board))
+                        checkWinConditions(state);
+                }
+            }
+
+            function isAITurn() {
+                if (!gameState || gameState.gameOver) return false;
+                if (gameMode === 'friend') return false;
+                return gameState.currentTurn !== playerSide;
+            }
+
+            function resetTimer() {
+                timerSeconds = 0;
+                updateTimerDisplay();
+                if (timerInterval) clearInterval(timerInterval);
+                if (timerEnabled) {
+                    timerInterval = setInterval(() => {
+                        timerSeconds++;
+                        updateTimerDisplay();
+                    }, 1000);
+                }
+            }
+
+            function updateTimerDisplay() {
+                const el = document.getElementById('timerDisplay');
+                if (!el) return;
+                const mins = Math.floor(timerSeconds / 60);
+                const secs = timerSeconds % 60;
+                el.textContent = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+                el.className = 'timer-display';
+                if (timerSeconds > 120) el.classList.add('timer-warning');
+                if (timerSeconds > 180) el.classList.add('timer-danger');
+            }
+
+            function addMoveLog(entry) {
+                moveLogEntries.push(entry);
+                if (moveLogEntries.length > 30) moveLogEntries.shift();
+                updateMoveLogUI();
+            }
+
+            function updateMoveLogUI() {
+                const el = document.getElementById('moveLog');
+                if (!el) return;
+                el.innerHTML = moveLogEntries.map(e => {
+                    let cls = 'log-entry';
+                    if (e.includes('🐅')) cls += ' tiger-move';
+                    if (e.includes('🐐')) cls += ' goat-move';
+                    if (e.includes('⚔️') || e.includes('capture')) cls += ' capture-move';
+                    return `<span class="${cls}">${e}</span>`;
+                }).join('');
+                el.scrollTop = el.scrollHeight;
+            }
+
+            // ────────────────────────────────────────
+            // GAME UI RENDERING
+            // ────────────────────────────────────────
+            function ensureGameUI() {
+                const wrapper = document.getElementById('gameWrapper');
+                if (!gameInitialized || !document.getElementById('gameCanvas')) {
+                    wrapper.innerHTML = `
+                <div class="game-top-bar">
+                  <button class="btn-back" onclick="navigateTo('home')">← Back</button>
+                  <span class="game-mode-badge mode-ai" id="gameModeBadge">🤖 vs AI</span>
+                  <span class="timer-display" id="timerDisplay">00:00</span>
+                </div>
+                <div class="settings-row" id="settingsRow">
+                  <div class="settings-group">
+                    <span class="settings-label">You Play:</span>
+                    <button class="btn-sm active-goats" id="btnSideGoats">🐐 Goats</button>
+                    <button class="btn-sm" id="btnSideTigers">🐅 Tigers</button>
+                  </div>
+                  <div class="settings-group" id="aiDifficultyGroup">
+                    <span class="settings-label">AI Level:</span>
+                    <button class="btn-sm active-easy" id="btnEasy">Easy</button>
+                    <button class="btn-sm" id="btnMedium">Medium</button>
+                    <button class="btn-sm" id="btnHard">Hard</button>
+                    <button class="btn-sm" id="btnExpert">⭐ Expert</button>
+                  </div>
+                  <div class="settings-group">
+                    <span class="settings-label">Timer:</span>
+                    <button class="btn-sm" id="btnTimerToggle">⏱ Off</button>
+                  </div>
+                </div>
+                <div class="board-outer"><div class="board-inner"><canvas id="gameCanvas"></canvas></div></div>
+                <div class="turn-indicator" id="turnIndicator">
+                  <div class="turn-dot goat-dot" id="turnDot"></div>
+                  <span class="turn-text" id="turnText">Goats' Turn</span>
+                  <span class="phase-badge phase-placement" id="phaseBadge">Placement</span>
+                </div>
+                <div class="info-row">
+                  <div class="info-card"><div class="info-label">Goats to Place</div><div class="info-value" id="goatsToPlace">20</div></div>
+                  <div class="info-card"><div class="info-label">Goats Captured</div><div class="info-value" id="goatsCaptured">0 / 5</div></div>
+                  <div class="info-card"><div class="info-label">Tigers Trapped</div><div class="info-value" id="tigersTrapped">0 / 4</div></div>
+                </div>
+                <div class="action-row">
+                  <button class="btn btn-undo" id="btnUndo" disabled>↩ Undo</button>
+                  <button class="btn btn-sm btn-hint" id="btnHint">💡 Hint</button>
+                  <button class="btn btn-restart" id="btnRestart">↺ New Game</button>
+                  <button class="btn btn-save" id="btnSave">💾 Save</button>
+                  <button class="btn btn-save" id="btnLoad" style="display:none;">📂 Load</button>
+                  <button class="btn btn-quit" id="btnQuit">🚪 Quit</button>
+                </div>
+                <div class="move-log" id="moveLog"></div>
+                <p class="keyboard-hint">⌨️ Arrow keys to navigate · Enter to select · H for hint · U to undo · R to restart</p>
+              `;
+                    gameInitialized = true;
+                    bindGameUI();
+                    checkForSavedGame();
+                }
+                canvas = document.getElementById('gameCanvas');
+                ctx = canvas.getContext('2d');
+                updateCanvasSize();
+                if (!gameState) gameState = createInitialState();
+                moveHistoryStack = [];
+                moveLogEntries = [];
+                hintMove = null;
+                updateSettingsButtons();
+                updateGameUI();
+                updateMoveLogUI();
+                resetTimer();
+                drawBoard();
+                if (!gameState.gameOver && isAITurn()) scheduleAITurn();
+            }
+
+            function checkForSavedGame() {
+                try {
+                    const saved = localStorage.getItem('baghchal_saved_game');
+                    if (saved) {
+                        document.getElementById('btnLoad').style.display = '';
+                    }
+                } catch (e) {}
+            }
+
+            function bindGameUI() {
+                document.getElementById('btnRestart').addEventListener('click', restartGame);
+                document.getElementById('btnPlayAgain').addEventListener('click', restartGame);
+                document.getElementById('btnUndo').addEventListener('click', undoMove);
+                document.getElementById('btnHint').addEventListener('click', showHint);
+                document.getElementById('btnSave').addEventListener('click', saveGame);
+                document.getElementById('btnLoad').addEventListener('click', loadGame);
+                document.getElementById('btnQuit').addEventListener('click', quitGame);
+                document.getElementById('btnTimerToggle').addEventListener('click', toggleTimer);
+                document.getElementById('btnSideGoats').addEventListener('click', () => {
+                    if (playerSide !== 'goats') { playerSide = 'goats';
+                        updateSettingsButtons();
+                        restartGame(); }
+                });
+                document.getElementById('btnSideTigers').addEventListener('click', () => {
+                    if (playerSide !== 'tigers') { playerSide = 'tigers';
+                        updateSettingsButtons();
+                        restartGame(); }
+                });
+                document.getElementById('btnEasy').addEventListener('click', () => { aiDifficulty = 'easy';
+                    updateSettingsButtons(); });
+                document.getElementById('btnMedium').addEventListener('click', () => { aiDifficulty = 'medium';
+                    updateSettingsButtons(); });
+                document.getElementById('btnHard').addEventListener('click', () => { aiDifficulty = 'hard';
+                    updateSettingsButtons(); });
+                document.getElementById('btnExpert').addEventListener('click', () => { aiDifficulty = 'expert';
+                    updateSettingsButtons(); });
+                canvas = document.getElementById('gameCanvas');
+                ctx = canvas.getContext('2d');
+                canvas.addEventListener('click', handleClick);
+                canvas.addEventListener('touchstart', function(e) {
+                    if (e.touches.length === 1) {
+                        e.preventDefault();
+                        const t = e.touches[0];
+                        handleClick({ clientX: t.clientX, clientY: t.clientY });
+                    }
+                }, { passive: false });
+                canvas.addEventListener('mousemove', handleHover);
+            }
+
+            function updateCanvasSize() {
+                if (!canvas) return;
+                canvas.width = CANVAS_SIZE;
+                canvas.height = CANVAS_SIZE;
+                canvas.style.width = CANVAS_SIZE + 'px';
+                canvas.style.height = CANVAS_SIZE + 'px';
+                canvas.style.maxWidth = '100%';
+                canvas.style.height = 'auto';
+            }
+
+            function updateSettingsButtons() {
+                const bsg = document.getElementById('btnSideGoats');
+                const bst = document.getElementById('btnSideTigers');
+                const be = document.getElementById('btnEasy');
+                const bm = document.getElementById('btnMedium');
+                const bh = document.getElementById('btnHard');
+                const bx = document.getElementById('btnExpert');
+                const aiGroup = document.getElementById('aiDifficultyGroup');
+                if (bsg) bsg.className = playerSide === 'goats' ? 'btn-sm active-goats' : 'btn-sm';
+                if (bst) bst.className = playerSide === 'tigers' ? 'btn-sm active-tigers' : 'btn-sm';
+                if (be) be.className = aiDifficulty === 'easy' ? 'btn-sm active-easy' : 'btn-sm';
+                if (bm) bm.className = aiDifficulty === 'medium' ? 'btn-sm active-medium' : 'btn-sm';
+                if (bh) bh.className = aiDifficulty === 'hard' ? 'btn-sm active-hard' : 'btn-sm';
+                if (bx) bx.className = aiDifficulty === 'expert' ? 'btn-sm active-expert' : 'btn-sm';
+                if (aiGroup) aiGroup.style.display = (gameMode === 'friend') ? 'none' : 'flex';
+                const badge = document.getElementById('gameModeBadge');
+                if (badge) {
+                    if (gameMode === 'friend') { badge.textContent = '👥 Local 2P';
+                        badge.className = 'game-mode-badge mode-friend'; } else if (gameMode ===
+                        'online') { badge.textContent = '🌐 Online Match';
+                        badge.className = 'game-mode-badge mode-online'; } else { badge.textContent =
+                            '🤖 vs AI';
+                        badge.className = 'game-mode-badge mode-ai'; }
+                }
+                const btnTimer = document.getElementById('btnTimerToggle');
+                if (btnTimer) {
+                    btnTimer.textContent = timerEnabled ? '⏱ On' : '⏱ Off';
+                    btnTimer.className = timerEnabled ? 'btn-sm active-easy' : 'btn-sm';
+                }
+            }
+
+            function updateGameUI() {
+                const s = gameState;
+                const gtpe = document.getElementById('goatsToPlace');
+                const gce = document.getElementById('goatsCaptured');
+                const tte = document.getElementById('tigersTrapped');
+                const ti = document.getElementById('turnIndicator');
+                const td = document.getElementById('turnDot');
+                const tt = document.getElementById('turnText');
+                const pb = document.getElementById('phaseBadge');
+                const btnUndo = document.getElementById('btnUndo');
+                if (gtpe) gtpe.textContent = s.goatsToPlace;
+                if (gce) gce.textContent = `${s.goatsCaptured} / 5`;
+                if (tte) tte.textContent = `${countTigersTrappedOnBoard(s.board)} / 4`;
+                if (btnUndo) btnUndo.disabled = moveHistoryStack.length === 0 || aiThinking || isAITurn();
+                if (ti && td && tt) {
+                    if (aiThinking) {
+                        ti.className = 'turn-indicator ai-thinking';
+                        td.className = 'turn-dot ai-dot';
+                        tt.textContent = 'AI Thinking...';
+                    } else if (s.currentTurn === 'goats') {
+                        ti.className = 'turn-indicator goats-turn';
+                        td.className = 'turn-dot goat-dot';
+                        const who = (gameMode === 'friend') ? 'Player 1' : (playerSide === 'goats' ? 'Your' : "AI's");
+                        tt.textContent = s.phase === 'placement' ? `${who} Turn — Place a Goat` :
+                            `${who} Turn — Move a Goat`;
+                    } else {
+                        ti.className = 'turn-indicator tigers-turn';
+                        td.className = 'turn-dot tiger-dot';
+                        const who = (gameMode === 'friend') ? 'Player 2' : (playerSide === 'tigers' ? 'Your' : "AI's");
+                        tt.textContent = `${who} Turn — Move a Tiger`;
+                    }
+                }
+                if (pb) {
+                    pb.textContent = s.phase === 'placement' ? 'Placement' : 'Movement';
+                    pb.className = 'phase-badge ' + (s.phase === 'placement' ? 'phase-placement' : 'phase-movement');
+                }
+                const overlay = document.getElementById('gameOverOverlay');
+                if (s.gameOver) {
+                    if (overlay) overlay.style.display = 'flex';
+                    const wi = document.getElementById('winnerIcon');
+                    const wt = document.getElementById('winnerTitle');
+                    const ws = document.getElementById('winnerSubtitle');
+                    if (s.winner === 'tigers') {
+                        if (wi) wi.textContent = '🐅';
+                        if (wt) { wt.textContent = 'Tigers Win!';
+                            wt.className = 'win-tigers'; }
+                    } else if (s.winner === 'goats') {
+                        if (wi) wi.textContent = '🐐';
+                        if (wt) { wt.textContent = 'Goats Win!';
+                            wt.className = 'win-goats'; }
+                    } else {
+                        if (wi) wi.textContent = '🤝';
+                        if (wt) { wt.textContent = 'Draw!';
+                            wt.className = 'draw-text'; }
+                    }
+                    if (ws) {
+                        const playerWon = (gameMode === 'friend') ? true : (s.winner === playerSide);
+                        ws.textContent = s.message + (gameMode === 'friend' ? '' : (playerWon ? ' — You win!' :
+                            ' — AI prevails!'));
+                    }
+                } else {
+                    if (overlay) overlay.style.display = 'none';
+                }
+            }
+
+            function startGame(mode) {
+                gameMode = mode;
+                if (mode === 'friend') playerSide = 'goats';
+                gameState = createInitialState();
+                aiThinking = false;
+                moveHistoryStack = [];
+                moveLogEntries = [];
+                hintMove = null;
+                gameInitialized = false;
+                navigateTo('game');
+                ensureGameUI();
+                updateSettingsButtons();
+                updateGameUI();
+                updateMoveLogUI();
+                resetTimer();
+                drawBoard();
+                document.getElementById('moveLog').classList.add('visible');
+                if (!gameState.gameOver && isAITurn()) scheduleAITurn();
+            }
+
+            function restartGame() {
+                gameState = createInitialState();
+                aiThinking = false;
+                moveHistoryStack = [];
+                moveLogEntries = [];
+                hintMove = null;
+                updateGameUI();
+                updateMoveLogUI();
+                resetTimer();
+                drawBoard();
+                document.getElementById('gameOverOverlay').style.display = 'none';
+                document.getElementById('moveLog').classList.add('visible');
+                if (!gameState.gameOver && isAITurn()) scheduleAITurn();
+                SoundEngine.clickSound();
+            }
+
+            function quitGame() {
+                if (confirm('Are you sure you want to quit? Any unsaved progress will be lost.')) {
+                    gameState = null;
+                    navigateTo('home');
+                }
+            }
+
+            function undoMove() {
+                if (!gameState || gameState.gameOver || aiThinking || isAITurn()) return;
+                if (moveHistoryStack.length === 0) return;
+                if (gameMode === 'online') return;
+                const prevState = moveHistoryStack.pop();
+                gameState.board = prevState.board;
+                gameState.goatsToPlace = prevState.goatsToPlace;
+                gameState.goatsCaptured = prevState.goatsCaptured;
+                gameState.currentTurn = prevState.currentTurn;
+                gameState.phase = prevState.phase;
+                gameState.selectedPiece = null;
+                gameState.validDestinations = [];
+                gameState.gameOver = false;
+                gameState.winner = null;
+                gameState.message = '';
+                gameState.totalMoves = prevState.totalMoves;
+                gameState.repetitionHashes = prevState.repetitionHashes;
+                hintMove = null;
+                if (moveLogEntries.length > 0) moveLogEntries.pop();
+                updateGameUI();
+                updateMoveLogUI();
+                drawBoard();
+                document.getElementById('gameOverOverlay').style.display = 'none';
+                SoundEngine.undoSound();
+                if (!gameState.gameOver && isAITurn()) scheduleAITurn();
+            }
+
+            function showHint() {
+                if (!gameState || gameState.gameOver || aiThinking || isAITurn()) return;
+                hintMove = null;
+                if (gameState.currentTurn === 'goats') {
+                    if (gameState.phase === 'placement') {
+                        const spots = getAllEmptySpots(gameState.board);
+                        if (spots.length > 0) {
+                            let best = spots[0],
+                                bs = -Infinity;
+                            spots.forEach(sp => {
+                                let sc = 0;
+                                getAdjacent(posKey(sp.r, sp.c)).forEach(nb => { if (gameState.board[nb.r][
+                                        nb.c
+                                    ] === 'T') sc += 20; });
+                                sc += (4 - (Math.abs(sp.r - 2) + Math.abs(sp.c - 2))) * 6;
+                                if (sp.r === 2 && sp.c === 2) sc += 15;
+                                if (sc > bs) { bs = sc;
+                                    best = sp; }
+                            });
+                            hintMove = { type: 'placement', r: best.r, c: best.c };
+                        }
+                    } else {
+                        const moves = getAllGoatMovesFromBoard(gameState.board);
+                        if (moves.length > 0) {
+                            let best = moves[0],
+                                bs = -Infinity;
+                            moves.forEach(mv => {
+                                let sc = 0;
+                                getAdjacent(posKey(mv.toR, mv.toC)).forEach(nb => { if (gameState.board[nb
+                                        .r][nb.c] === 'T') sc += 18; });
+                                sc += (4 - (Math.abs(mv.toR - 2) + Math.abs(mv.toC - 2))) * 5;
+                                if (sc > bs) { bs = sc;
+                                    best = mv; }
+                            });
+                            hintMove = { type: 'movement', fromR: best.fromR, fromC: best.fromC, toR: best.toR,
+                                toC: best.toC };
+                        }
+                    }
+                } else {
+                    const moves = getAllTigerMovesFromBoard(gameState.board);
+                    if (moves.length > 0) {
+                        const caps = moves.filter(m => m.isCapture);
+                        const search = caps.length > 0 ? caps : moves;
+                        let best = search[0],
+                            bs = -Infinity;
+                        search.forEach(mv => {
+                            let sc = mv.isCapture ? 100 : 0;
+                            sc += (4 - (Math.abs(mv.toR - 2) + Math.abs(mv.toC - 2))) * 8;
+                            if (sc > bs) { bs = sc;
+                                best = mv; }
+                        });
+                        hintMove = { type: 'tiger', fromR: best.fromR, fromC: best.fromC, toR: best.toR, toC: best
+                                .toC, isCapture: best.isCapture };
+                    }
+                }
+                SoundEngine.hintSound();
+                drawBoard();
+            }
+
+            function toggleTimer() {
+                timerEnabled = !timerEnabled;
+                updateSettingsButtons();
+                resetTimer();
+                SoundEngine.clickSound();
+            }
+
+            function saveGame() {
+                if (!gameState || gameState.gameOver) return;
+                const saveData = {
+                    gameState: {
+                        board: gameState.board,
+                        goatsToPlace: gameState.goatsToPlace,
+                        goatsCaptured: gameState.goatsCaptured,
+                        currentTurn: gameState.currentTurn,
+                        phase: gameState.phase,
+                        totalMoves: gameState.totalMoves,
+                        repetitionHashes: gameState.repetitionHashes,
+                    },
+                    gameMode,
+                    playerSide,
+                    aiDifficulty,
+                    moveHistoryStack: moveHistoryStack.map(s => ({
+                        board: s.board,
+                        goatsToPlace: s.goatsToPlace,
+                        goatsCaptured: s.goatsCaptured,
+                        currentTurn: s.currentTurn,
+                        phase: s.phase,
+                        totalMoves: s.totalMoves,
+                        repetitionHashes: s.repetitionHashes,
+                    })),
+                    moveLogEntries,
+                };
+                localStorage.setItem('baghchal_saved_game', JSON.stringify(saveData));
+                document.getElementById('btnLoad').style.display = '';
+                SoundEngine.winSound();
+                const btnSave = document.getElementById('btnSave');
+                btnSave.textContent = '✅ Saved!';
+                setTimeout(() => { btnSave.textContent = '💾 Save'; }, 1500);
+            }
+
+            function loadGame() {
+                try {
+                    const saved = JSON.parse(localStorage.getItem('baghchal_saved_game'));
+                    if (!saved) return;
+                    gameState = createInitialState();
+                    gameState.board = saved.gameState.board;
+                    gameState.goatsToPlace = saved.gameState.goatsToPlace;
+                    gameState.goatsCaptured = saved.gameState.goatsCaptured;
+                    gameState.currentTurn = saved.gameState.currentTurn;
+                    gameState.phase = saved.gameState.phase;
+                    gameState.totalMoves = saved.gameState.totalMoves;
+                    gameState.repetitionHashes = saved.gameState.repetitionHashes || [];
+                    gameState.selectedPiece = null;
+                    gameState.validDestinations = [];
+                    gameMode = saved.gameMode;
+                    playerSide = saved.playerSide;
+                    aiDifficulty = saved.aiDifficulty;
+                    moveHistoryStack = saved.moveHistoryStack.map(s => ({
+                        board: s.board,
+                        goatsToPlace: s.goatsToPlace,
+                        goatsCaptured: s.goatsCaptured,
+                        currentTurn: s.currentTurn,
+                        phase: s.phase,
+                        totalMoves: s.totalMoves,
+                        selectedPiece: null,
+                        validDestinations: [],
+                        gameOver: false,
+                        winner: null,
+                        message: '',
+                        repetitionHashes: s.repetitionHashes || [],
+                    }));
+                    moveLogEntries = saved.moveLogEntries || [];
+                    aiThinking = false;
+                    hintMove = null;
+                    gameInitialized = false;
+                    navigateTo('game');
+                    ensureGameUI();
+                    updateSettingsButtons();
+                    updateGameUI();
+                    updateMoveLogUI();
+                    resetTimer();
+                    drawBoard();
+                    document.getElementById('moveLog').classList.add('visible');
+                    document.getElementById('gameOverOverlay').style.display = 'none';
+                    SoundEngine.clickSound();
+                    if (!gameState.gameOver && isAITurn()) scheduleAITurn();
+                } catch (e) {
+                    alert('Failed to load saved game.');
+                }
+            }
+            document.getElementById('btnPlayAgain').addEventListener('click', restartGame);
+
+            // ────────────────────────────────────────
+            // DRAWING
+            // ────────────────────────────────────────
+            function drawBoard() {
+                if (!ctx || !canvas || !gameState) return;
+                const s = gameState;
+                ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+                const bgGrad = ctx.createRadialGradient(CANVAS_SIZE / 2, CANVAS_SIZE / 2, CANVAS_SIZE * 0.08, CANVAS_SIZE / 2,
+                    CANVAS_SIZE / 2, CANVAS_SIZE * 0.7);
+                bgGrad.addColorStop(0, '#dcc8a0');
+                bgGrad.addColorStop(0.7, '#c4a67a');
+                bgGrad.addColorStop(1, '#a08060');
+                ctx.fillStyle = bgGrad;
+                ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+                const drawnLines = new Set();
+                ctx.strokeStyle = '#4a2810';
+                ctx.lineWidth = Math.max(1.8, CANVAS_SIZE * 0.005);
+                ctx.lineCap = 'round';
+                for (let r = 0; r < BOARD_SIZE; r++) {
+                    for (let c = 0; c < BOARD_SIZE; c++) {
+                        const key = posKey(r, c);
+                        for (const nb of getAdjacent(key)) {
+                            const nKey = posKey(nb.r, nb.c);
+                            const lineKey = [key, nKey].sort().join('|');
+                            if (!drawnLines.has(lineKey)) {
+                                drawnLines.add(lineKey);
+                                const p1 = INTERSECTIONS[r][c];
+                                const p2 = INTERSECTIONS[nb.r][nb.c];
+                                ctx.beginPath();
+                                ctx.moveTo(p1.x, p1.y);
+                                ctx.lineTo(p2.x, p2.y);
+                                ctx.stroke();
+                            }
+                        }
+                    }
+                }
+                const dotRadius = Math.max(2.5, CANVAS_SIZE * 0.009);
+                for (let r = 0; r < BOARD_SIZE; r++) {
+                    for (let c = 0; c < BOARD_SIZE; c++) {
+                        const p = INTERSECTIONS[r][c];
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, dotRadius, 0, Math.PI * 2);
+                        ctx.fillStyle = '#3a1f0a';
+                        ctx.fill();
+                    }
+                }
+                const hlScale = CANVAS_SIZE / 500;
+                if (hintMove && !aiThinking && !isAITurn()) {
+                    let hr, hc;
+                    if (hintMove.type === 'placement') { hr = hintMove.r;
+                        hc = hintMove.c; } else { hr = hintMove.toR;
+                        hc = hintMove.toC; }
+                    const hp = INTERSECTIONS[hr][hc];
+                    const hintGlow = ctx.createRadialGradient(hp.x, hp.y, 6 * hlScale, hp.x, hp.y, 24 * hlScale);
+                    hintGlow.addColorStop(0, 'rgba(180,160,255,0.7)');
+                    hintGlow.addColorStop(1, 'rgba(180,160,255,0)');
+                    ctx.fillStyle = hintGlow;
+                    ctx.beginPath();
+                    ctx.arc(hp.x, hp.y, 24 * hlScale, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.beginPath();
+                    ctx.arc(hp.x, hp.y, 8 * hlScale, 0, Math.PI * 2);
+                    ctx.fillStyle = '#9080e0';
+                    ctx.fill();
+                    ctx.strokeStyle = '#fff';
+                    ctx.lineWidth = 2.5;
+                    ctx.stroke();
+                    ctx.fillStyle = '#fff';
+                    ctx.font = `${14*hlScale}px sans-serif`;
+                    ctx.textAlign = 'center';
+                    ctx.fillText('💡', hp.x, hp.y - 16 * hlScale);
+                }
+                for (const dest of s.validDestinations) {
+                    const p = INTERSECTIONS[dest.r][dest.c];
+                    if (dest.isCapture) {
+                        const gg = ctx.createRadialGradient(p.x, p.y, 6 * hlScale, p.x, p.y, 22 * hlScale);
+                        gg.addColorStop(0, 'rgba(255,80,60,0.7)');
+                        gg.addColorStop(1, 'rgba(255,80,60,0)');
+                        ctx.fillStyle = gg;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, 22 * hlScale, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, 8 * hlScale, 0, Math.PI * 2);
+                        ctx.fillStyle = '#ff4030';
+                        ctx.fill();
+                        ctx.strokeStyle = '#fff';
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+                    } else {
+                        const gg = ctx.createRadialGradient(p.x, p.y, 4 * hlScale, p.x, p.y, 18 * hlScale);
+                        gg.addColorStop(0, 'rgba(100,200,120,0.6)');
+                        gg.addColorStop(1, 'rgba(100,200,120,0)');
+                        ctx.fillStyle = gg;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, 18 * hlScale, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, 6 * hlScale, 0, Math.PI * 2);
+                        ctx.fillStyle = '#5cb870';
+                        ctx.fill();
+                        ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+                    }
+                }
+                if (s.selectedPiece) {
+                    const sp = INTERSECTIONS[s.selectedPiece.r][s.selectedPiece.c];
+                    ctx.beginPath();
+                    ctx.arc(sp.x, sp.y, CANVAS_SIZE * 0.052, 0, Math.PI * 2);
+                    ctx.strokeStyle = '#ffd700';
+                    ctx.lineWidth = Math.max(2.5, CANVAS_SIZE * 0.007);
+                    ctx.shadowColor = '#ffd700';
+                    ctx.shadowBlur = CANVAS_SIZE * 0.032;
+                    ctx.stroke();
+                    ctx.shadowColor = 'transparent';
+                    ctx.shadowBlur = 0;
+                }
+                const kbFocus = keyboardFocusPos;
+                if (kbFocus && !aiThinking && !isAITurn() && !gameState.gameOver) {
+                    const kp = INTERSECTIONS[kbFocus.r][kbFocus.c];
+                    ctx.beginPath();
+                    ctx.arc(kp.x, kp.y, CANVAS_SIZE * 0.058, 0, Math.PI * 2);
+                    ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+                    ctx.lineWidth = Math.max(1.5, CANVAS_SIZE * 0.004);
+                    ctx.setLineDash([4, 4]);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                }
+                const pScale = CANVAS_SIZE / 500;
+                for (let r = 0; r < BOARD_SIZE; r++)
+                    for (let c = 0; c < BOARD_SIZE; c++) {
+                        const p = INTERSECTIONS[r][c];
+                        if (s.board[r][c] === 'T') drawTiger(p.x, p.y, pScale);
+                        else if (s.board[r][c] === 'G') drawGoat(p.x, p.y, pScale);
+                    }
+            }
+
+            function drawTiger(x, y, s) {
+                const bodyR = 20 * s;
+                const glowGrad = ctx.createRadialGradient(x, y, bodyR * 0.7, x, y, bodyR * 1.35);
+                glowGrad.addColorStop(0, 'rgba(240,133,26,0.5)');
+                glowGrad.addColorStop(1, 'rgba(240,133,26,0)');
+                ctx.fillStyle = glowGrad;
+                ctx.beginPath();
+                ctx.arc(x, y, bodyR * 1.35, 0, Math.PI * 2);
+                ctx.fill();
+                const bodyGrad = ctx.createRadialGradient(x - 5 * s, y - 6 * s, 3 * s, x, y, bodyR);
+                bodyGrad.addColorStop(0, '#fca840');
+                bodyGrad.addColorStop(0.45, '#e8781a');
+                bodyGrad.addColorStop(0.85, '#b8500e');
+                bodyGrad.addColorStop(1, '#7a2a04');
+                ctx.fillStyle = bodyGrad;
+                ctx.beginPath();
+                ctx.arc(x, y, bodyR, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#3a1000';
+                ctx.lineWidth = Math.max(2, 2.5 * s);
+                ctx.stroke();
+                const innerGrad = ctx.createRadialGradient(x - 5 * s, y - 6 * s, 1.5 * s, x, y, bodyR * 0.7);
+                innerGrad.addColorStop(0, 'rgba(255,220,150,0.45)');
+                innerGrad.addColorStop(1, 'rgba(255,150,50,0)');
+                ctx.fillStyle = innerGrad;
+                ctx.beginPath();
+                ctx.arc(x, y, bodyR * 0.7, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(20,5,0,0.75)';
+                ctx.lineWidth = Math.max(1.5, 2.2 * s);
+                ctx.lineCap = 'round';
+                [-0.55, 0.12, 0.75, -0.9, 0.5, -0.22, 1.05, -0.65].forEach(angle => {
+                    ctx.beginPath();
+                    ctx.moveTo(x + Math.cos(angle) * bodyR * 0.35, y + Math.sin(angle) * bodyR * 0.35);
+                    ctx.lineTo(x + Math.cos(angle) * bodyR * 0.82, y + Math.sin(angle) * bodyR * 0.82);
+                    ctx.stroke();
+                });
+                ctx.fillStyle = '#d8701a';
+                [-0.75, -2.4].forEach(ea => {
+                    const ex = x + Math.cos(ea) * bodyR * 0.75;
+                    const ey = y + Math.sin(ea) * bodyR * 0.75;
+                    ctx.beginPath();
+                    ctx.arc(ex, ey, bodyR * 0.32, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = '#3a1000';
+                    ctx.lineWidth = Math.max(1, 1.5 * s);
+                    ctx.stroke();
+                    ctx.fillStyle = '#f5d0b0';
+                    ctx.beginPath();
+                    ctx.arc(ex, ey, bodyR * 0.16, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#d8701a';
+                });
+                const eox = 5.5 * s,
+                    eoy = 4.5 * s,
+                    er = 4 * s;
+                [-1, 1].forEach(sign => {
+                    const ex = x + sign * eox,
+                        ey = y - eoy;
+                    ctx.fillStyle = '#fff';
+                    ctx.beginPath();
+                    ctx.arc(ex, ey, er, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#000';
+                    ctx.beginPath();
+                    ctx.arc(ex + sign * 1.2 * s, ey, er * 0.55, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#fff';
+                    ctx.beginPath();
+                    ctx.arc(ex + sign * 0.5 * s, ey - er * 0.35, er * 0.22, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                ctx.fillStyle = '#1a0500';
+                ctx.beginPath();
+                ctx.arc(x, y + bodyR * 0.12, bodyR * 0.14, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+                ctx.lineWidth = Math.max(0.8, 1 * s);
+                ctx.beginPath();
+                ctx.moveTo(x, y + bodyR * 0.22);
+                ctx.lineTo(x - bodyR * 0.2, y + bodyR * 0.38);
+                ctx.moveTo(x, y + bodyR * 0.22);
+                ctx.lineTo(x + bodyR * 0.2, y + bodyR * 0.38);
+                ctx.stroke();
+                ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+                ctx.lineWidth = Math.max(0.5, 0.8 * s);
+                [-1, 1].forEach(side => {
+                    for (let w = 0; w < 3; w++) {
+                        ctx.beginPath();
+                        ctx.moveTo(x + side * bodyR * 0.3, y + bodyR * 0.05 + w * bodyR * 0.12);
+                        ctx.lineTo(x + side * bodyR * 0.75, y - bodyR * 0.03 + w * bodyR * 0.06);
+                        ctx.stroke();
+                    }
+                });
+            }
+
+            function drawGoat(x, y, s) {
+                const bodyR = 16 * s;
+                const glowGrad = ctx.createRadialGradient(x, y, bodyR * 0.6, x, y, bodyR * 1.3);
+                glowGrad.addColorStop(0, 'rgba(240,235,225,0.4)');
+                glowGrad.addColorStop(1, 'rgba(240,235,225,0)');
+                ctx.fillStyle = glowGrad;
+                ctx.beginPath();
+                ctx.arc(x, y, bodyR * 1.3, 0, Math.PI * 2);
+                ctx.fill();
+                const bodyGrad = ctx.createRadialGradient(x - 3 * s, y - 4 * s, 2 * s, x, y, bodyR);
+                bodyGrad.addColorStop(0, '#ffffff');
+                bodyGrad.addColorStop(0.5, '#f0e8d8');
+                bodyGrad.addColorStop(0.85, '#d8cfbf');
+                bodyGrad.addColorStop(1, '#b8afa0');
+                ctx.fillStyle = bodyGrad;
+                ctx.beginPath();
+                ctx.arc(x, y, bodyR, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#5a4a3a';
+                ctx.lineWidth = Math.max(1.5, 2 * s);
+                ctx.stroke();
+                const innerGrad = ctx.createRadialGradient(x - 3.5 * s, y - 4.5 * s, 1 * s, x, y, bodyR * 0.65);
+                innerGrad.addColorStop(0, 'rgba(255,255,255,0.7)');
+                innerGrad.addColorStop(1, 'rgba(255,255,255,0)');
+                ctx.fillStyle = innerGrad;
+                ctx.beginPath();
+                ctx.arc(x, y, bodyR * 0.65, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#4a3525';
+                ctx.lineWidth = Math.max(2, 2.8 * s);
+                ctx.lineCap = 'round';
+                [-1, 1].forEach(side => {
+                    const hx = x + side * bodyR * 0.3,
+                        hy = y - bodyR * 0.75;
+                    ctx.beginPath();
+                    ctx.moveTo(hx, hy + bodyR * 0.15);
+                    ctx.quadraticCurveTo(hx + side * bodyR * 0.5, hy - bodyR * 0.7, hx + side * bodyR * 0.35, hy -
+                        bodyR * 0.55);
+                    ctx.stroke();
+                });
+                const eox2 = 4.5 * s,
+                    eoy2 = 3 * s,
+                    er2 = 3 * s;
+                [-1, 1].forEach(sign => {
+                    const ex = x + sign * eox2,
+                        ey = y - eoy2;
+                    ctx.fillStyle = '#fff';
+                    ctx.beginPath();
+                    ctx.arc(ex, ey, er2, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#1a0a00';
+                    ctx.beginPath();
+                    ctx.arc(ex + sign * 0.8 * s, ey, er2 * 0.5, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#fff';
+                    ctx.beginPath();
+                    ctx.arc(ex + sign * 0.3 * s, ey - er2 * 0.3, er2 * 0.18, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                ctx.fillStyle = '#d8c8b8';
+                ctx.beginPath();
+                ctx.ellipse(x, y + bodyR * 0.15, bodyR * 0.28, bodyR * 0.18, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#8a7060';
+                ctx.beginPath();
+                ctx.arc(x - bodyR * 0.08, y + bodyR * 0.12, bodyR * 0.08, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(x + bodyR * 0.08, y + bodyR * 0.12, bodyR * 0.08, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#e8ddd0';
+                ctx.beginPath();
+                ctx.moveTo(x - bodyR * 0.18, y + bodyR * 0.25);
+                ctx.quadraticCurveTo(x, y + bodyR * 0.65, x + bodyR * 0.18, y + bodyR * 0.25);
+                ctx.quadraticCurveTo(x, y + bodyR * 0.4, x - bodyR * 0.18, y + bodyR * 0.25);
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(90,74,58,0.4)';
+                ctx.lineWidth = Math.max(0.5, 0.7 * s);
+                ctx.stroke();
+            }
+
+            // ────────────────────────────────────────
+            // CLICK & HOVER
+            // ────────────────────────────────────────
+            function getCanvasCoords(e) {
+                if (!canvas) return { x: 0, y: 0 };
+                const rect = canvas.getBoundingClientRect();
+                return { x: (e.clientX - rect.left) * (CANVAS_SIZE / rect.width), y: (e.clientY - rect.top) * (CANVAS_SIZE /
+                        rect.height) };
+            }
+
+            function findNearestIntersection(cx, cy) {
+                let bestDist = Infinity,
+                    bestPos = null;
+                const threshold = CANVAS_SIZE * 0.07;
+                for (let r = 0; r < BOARD_SIZE; r++)
+                    for (let c = 0; c < BOARD_SIZE; c++) {
+                        const p = INTERSECTIONS[r][c];
+                        const dist = Math.sqrt((cx - p.x) ** 2 + (cy - p.y) ** 2);
+                        if (dist < bestDist) { bestDist = dist;
+                            bestPos = { r, c, dist }; }
+                    }
+                return (bestPos && bestPos.dist < threshold) ? bestPos : null;
+            }
+
+            function handleClick(e) {
+                if (!gameState || gameState.gameOver || aiThinking) return;
+                if (isAITurn()) return;
+                const coords = getCanvasCoords(e);
+                const nearest = findNearestIntersection(coords.x, coords.y);
+                if (!nearest) return;
+                const { r, c } = nearest;
+                keyboardFocusPos = { r, c };
+                processHumanMove(r, c);
+            }
+
+            function processHumanMove(r, c) {
+                const prevState = cloneState(gameState);
+                if (gameState.currentTurn === 'goats') handleGoatClick(r, c);
+                else handleTigerClick(r, c);
+                if (gameState.totalMoves !== prevState.totalMoves) {
+                    moveHistoryStack.push(prevState);
+                    const mover = prevState.currentTurn === 'goats' ? '🐐' : '🐅';
+                    const action = gameState.goatsCaptured > prevState.goatsCaptured ? ' ⚔️capture!' : '';
+                    addMoveLog(
+                        `#${gameState.totalMoves} ${mover} ${prevState.phase==='placement'?'placed at':'moved to'} (${r},${c})${action}`
+                        );
+                    if (gameState.goatsCaptured > prevState.goatsCaptured) SoundEngine.captureSound();
+                    else if (prevState.phase === 'placement') SoundEngine.placeSound();
+                    else SoundEngine.moveSound();
+                    // Check threefold after move
+                    if (!gameState.gameOver) {
+                        const draw = checkThreefoldRepetition(gameState);
+                        if (draw) {
+                            updateGameUI();
+                            drawBoard();
+                            if (timerInterval) clearInterval(timerInterval);
+                            recordGameResult('draw');
+                            SoundEngine.drawSound();
+                            return;
+                        }
+                    }
+                }
+                gameState.totalMoves = Math.max(gameState.totalMoves, prevState.totalMoves + (gameState.totalMoves !== prevState
+                    .totalMoves ? 1 : 0));
+                checkWinConditions(gameState);
+                updateGameUI();
+                drawBoard();
+                if (!gameState.gameOver && isAITurn()) scheduleAITurn();
+                if (gameState.gameOver) {
+                    if (timerInterval) clearInterval(timerInterval);
+                    recordGameResult(gameState.winner);
+                    const playerWon = (gameMode === 'friend') ? true : (gameState.winner === playerSide);
+                    if (playerWon || gameMode === 'friend') {
+                        spawnConfetti();
+                        SoundEngine.winSound();
+                    } else if (gameState.winner) {
+                        SoundEngine.loseSound();
+                    } else {
+                        SoundEngine.drawSound();
+                    }
+                }
+            }
+
+            function handleGoatClick(r, c) {
+                const s = gameState;
+                if (s.phase === 'placement') {
+                    if (s.board[r][c] !== null) return;
+                    s.board[r][c] = 'G';
+                    s.goatsToPlace--;
+                    s.selectedPiece = null;
+                    s.validDestinations = [];
+                    if (s.goatsToPlace <= 0) s.phase = 'movement';
+                    s.currentTurn = 'tigers';
+                    hintMove = null;
+                    if (!anyTigerCanMoveOnBoard(s.board)) checkWinConditions(s);
+                    updateGameUI();
+                    drawBoard();
+                } else {
+                    if (!s.selectedPiece) {
+                        if (s.board[r][c] !== 'G') return;
+                        const moves = getValidGoatMovesOnBoard(s.board, r, c);
+                        if (!moves.length) return;
+                        s.selectedPiece = { r, c };
+                        s.validDestinations = moves;
+                        drawBoard();
+                    } else if (s.selectedPiece.r === r && s.selectedPiece.c === c) {
+                        s.selectedPiece = null;
+                        s.validDestinations = [];
+                        drawBoard();
+                    } else {
+                        const dest = s.validDestinations.find(d => d.r === r && d.c === c);
+                        if (dest) {
+                            s.board[s.selectedPiece.r][s.selectedPiece.c] = null;
+                            s.board[r][c] = 'G';
+                            s.selectedPiece = null;
+                            s.validDestinations = [];
+                            switchTurn(s);
+                        } else {
+                            if (s.board[r][c] === 'G') {
+                                const moves = getValidGoatMovesOnBoard(s.board, r, c);
+                                s.selectedPiece = moves.length ? { r, c } : null;
+                                s.validDestinations = moves.length ? moves : [];
+                            } else { s.selectedPiece = null;
+                                s.validDestinations = []; }
+                            drawBoard();
+                        }
+                    }
+                }
+            }
+
+            function handleTigerClick(r, c) {
+                const s = gameState;
+                if (!s.selectedPiece) {
+                    if (s.board[r][c] !== 'T') return;
+                    const moves = getValidTigerMovesOnBoard(s.board, r, c);
+                    if (!moves.length) return;
+                    s.selectedPiece = { r, c };
+                    s.validDestinations = moves;
+                    drawBoard();
+                } else if (s.selectedPiece.r === r && s.selectedPiece.c === c) {
+                    s.selectedPiece = null;
+                    s.validDestinations = [];
+                    drawBoard();
+                } else {
+                    const dest = s.validDestinations.find(d => d.r === r && d.c === c);
+                    if (dest) {
+                        s.board[s.selectedPiece.r][s.selectedPiece.c] = null;
+                        s.board[r][c] = 'T';
+                        if (dest.isCapture && dest.capturedGoat) {
+                            s.board[dest.capturedGoat.r][dest.capturedGoat.c] = null;
+                            s.goatsCaptured++;
+                        }
+                        s.selectedPiece = null;
+                        s.validDestinations = [];
+                        if (s.goatsCaptured >= 5) { s.gameOver = true;
+                            s.winner = 'tigers';
+                            s.message = 'Tigers have captured 5 goats!'; } else switchTurn(s);
+                    } else {
+                        if (s.board[r][c] === 'T') {
+                            const moves = getValidTigerMovesOnBoard(s.board, r, c);
+                            s.selectedPiece = moves.length ? { r, c } : null;
+                            s.validDestinations = moves.length ? moves : [];
+                        } else { s.selectedPiece = null;
+                            s.validDestinations = []; }
+                        drawBoard();
+                    }
+                }
+            }
+
+            function handleHover(e) {
+                if (!canvas || !gameState || gameState.gameOver || aiThinking || isAITurn()) {
+                    if (canvas) canvas.style.cursor = 'default';
+                    return;
+                }
+                const coords = getCanvasCoords(e);
+                const nearest = findNearestIntersection(coords.x, coords.y);
+                if (!nearest) { canvas.style.cursor = 'default'; return; }
+                const { r, c } = nearest;
+                const s = gameState;
+                let pointer = false;
+                if (s.currentTurn === 'goats') {
+                    if (s.phase === 'placement' && s.board[r][c] === null) pointer = true;
+                    else if (s.phase === 'movement' && s.board[r][c] === 'G') pointer = true;
+                    else if (s.selectedPiece && s.validDestinations.some(d => d.r === r && d.c === c)) pointer = true;
+                } else {
+                    if (s.board[r][c] === 'T') pointer = true;
+                    else if (s.selectedPiece && s.validDestinations.some(d => d.r === r && d.c === c)) pointer = true;
+                }
+                canvas.style.cursor = pointer ? 'pointer' : 'default';
+            }
+
+            // ────────────────────────────────────────
+            // AI
+            // ────────────────────────────────────────
+            function scheduleAITurn() {
+                if (!gameState || gameState.gameOver || !isAITurn()) return;
+                aiThinking = true;
+                updateGameUI();
+                drawBoard();
+                const delay = aiDifficulty === 'expert' ? 500 : aiDifficulty === 'hard' ? 350 : aiDifficulty ===
+                    'medium' ? 250 : 150;
+                setTimeout(() => {
+                    executeAITurn();
+                    aiThinking = false;
+                    updateGameUI();
+                    drawBoard();
+                    if (!gameState.gameOver) {
+                        const draw = checkThreefoldRepetition(gameState);
+                        if (draw) {
+                            updateGameUI();
+                            drawBoard();
+                            if (timerInterval) clearInterval(timerInterval);
+                            recordGameResult('draw');
+                            SoundEngine.drawSound();
+                            return;
+                        }
+                    }
+                    if (!gameState.gameOver && isAITurn()) scheduleAITurn();
+                    if (gameState.gameOver) {
+                        if (timerInterval) clearInterval(timerInterval);
+                        recordGameResult(gameState.winner);
+                        const playerWon = (gameMode === 'friend') ? true : (gameState.winner === playerSide);
+                        if (playerWon || gameMode === 'friend') { spawnConfetti();
+                            SoundEngine.winSound(); } else if (gameState.winner) SoundEngine.loseSound();
+                        else SoundEngine.drawSound();
+                    }
+                }, delay);
+            }
+
+            function executeAITurn() {
+                if (!gameState || gameState.gameOver) return;
+                if (gameState.currentTurn === 'goats') executeAIGoatTurn();
+                else executeAITigerTurn();
+                checkWinConditions(gameState);
+                updateGameUI();
+                drawBoard();
+            }
+
+            function executeAIGoatTurn() {
+                const s = gameState;
+                if (s.phase === 'placement') {
+                    const spot = aiChooseGoatPlacement();
+                    if (spot) {
+                        s.board[spot.r][spot.c] = 'G';
+                        s.goatsToPlace--;
+                        if (s.goatsToPlace <= 0) s.phase = 'movement';
+                        s.selectedPiece = null;
+                        s.validDestinations = [];
+                        s.currentTurn = 'tigers';
+                        addMoveLog(`🤖 AI 🐐 placed at (${spot.r},${spot.c})`);
+                        if (!anyTigerCanMoveOnBoard(s.board)) checkWinConditions(s);
+                    }
+                } else {
+                    const move = aiChooseGoatMovement();
+                    if (move) {
+                        s.board[move.fromR][move.fromC] = null;
+                        s.board[move.toR][move.toC] = 'G';
+                        s.selectedPiece = null;
+                        s.validDestinations = [];
+                        addMoveLog(`🤖 AI 🐐 moved (${move.fromR},${move.fromC})→(${move.toR},${move.toC})`);
+                        switchTurn(s);
+                    } else if (!anyGoatCanMoveOnBoard(s.board)) {
+                        s.currentTurn = 'tigers';
+                        s.selectedPiece = null;
+                        s.validDestinations = [];
+                        if (!anyTigerCanMoveOnBoard(s.board)) checkWinConditions(s);
+                    }
+                }
+            }
+
+            function executeAITigerTurn() {
+                const s = gameState;
+                const move = aiChooseTigerMove();
+                if (move) {
+                    s.board[move.fromR][move.fromC] = null;
+                    s.board[move.toR][move.toC] = 'T';
+                    let capMsg = '';
+                    if (move.isCapture && move.capturedGoat) {
+                        s.board[move.capturedGoat.r][move.capturedGoat.c] = null;
+                        s.goatsCaptured++;
+                        capMsg = ' ⚔️capture!';
+                    }
+                    s.selectedPiece = null;
+                    s.validDestinations = [];
+                    addMoveLog(
+                        `🤖 AI 🐅 moved (${move.fromR},${move.fromC})→(${move.toR},${move.toC})${capMsg}`);
+                    if (s.goatsCaptured >= 5) { s.gameOver = true;
+                        s.winner = 'tigers';
+                        s.message = 'Tigers have captured 5 goats!'; return; }
+                    switchTurn(s);
+                } else if (!anyTigerCanMoveOnBoard(s.board)) {
+                    s.gameOver = true;
+                    s.winner = 'goats';
+                    s.message = 'No tiger can move! Goats win!';
+                }
+            }
+
+            // Minimax and evaluation functions (unchanged)
+            function evaluateForTigers(board, goatsCaptured) { /* ... same ... */ }
+            function evaluateForGoats(board, goatsCaptured, goatsToPlace) { /* ... same ... */ }
+            function aiChooseGoatPlacement() { /* ... same ... */ }
+            function aiChooseGoatMovement() { /* ... same ... */ }
+            function aiChooseTigerMove() { /* ... same ... */ }
+            function minimax(board, depth, alpha, beta, maximizingForTigers, goatsCaptured, goatsToPlace, phase) { /* ... same ... */ }
+
+            // (Copy the full implementations from the previous iteration – they remain unchanged.)
+            // I'm omitting them here for brevity but they are present in the full code.
+            // In the actual response, the full AI functions are included exactly as before.
+
+            function evaluateForTigers(board, goatsCaptured) {
+                let score = goatsCaptured * 120;
+                score -= countTigersTrappedOnBoard(board) * 90;
+                for (let r = 0; r < BOARD_SIZE; r++)
+                    for (let c = 0; c < BOARD_SIZE; c++) {
+                        if (board[r][c] === 'T') {
+                            const moves = getValidTigerMovesOnBoard(board, r, c);
+                            if (moves.length === 0) score -= 35;
+                            else if (moves.length === 1) score -= 22;
+                            else if (moves.length >= 3) score += 15;
+                            score += moves.filter(m => m.isCapture).length * 38;
+                            score += (4 - (Math.abs(r - 2) + Math.abs(c - 2))) * 8;
+                        }
+                    }
+                return score;
+            }
+
+            function evaluateForGoats(board, goatsCaptured, goatsToPlace) {
+                let score = countTigersTrappedOnBoard(board) * 95;
+                for (let r = 0; r < BOARD_SIZE; r++)
+                    for (let c = 0; c < BOARD_SIZE; c++) {
+                        if (board[r][c] === 'T') {
+                            const moves = getValidTigerMovesOnBoard(board, r, c);
+                            if (moves.length === 0) score += 55;
+                            else if (moves.length === 1) score += 28;
+                            else if (moves.length === 2) score += 10;
+                            score -= moves.filter(m => m.isCapture).length * 42;
+                        }
+                    }
+                score -= goatsCaptured * 135;
+                score += goatsToPlace * 7;
+                for (let r = 0; r < BOARD_SIZE; r++)
+                    for (let c = 0; c < BOARD_SIZE; c++) {
+                        if (board[r][c] === 'G') {
+                            score += (4 - (Math.abs(r - 2) + Math.abs(c - 2))) * 4;
+                            if (getAdjacent(posKey(r, c)).some(nb => board[nb.r][nb.c] === 'T')) score += 11;
+                        }
+                    }
+                return score;
+            }
+
+            function aiChooseGoatPlacement() {
+                const spots = getAllEmptySpots(gameState.board);
+                if (!spots.length) return null;
+                if (aiDifficulty === 'easy') return spots[Math.floor(Math.random() * spots.length)];
+                if (aiDifficulty === 'medium') {
+                    let best = spots[0],
+                        bs = -Infinity;
+                    spots.forEach(sp => {
+                        let sc = 0;
+                        getAdjacent(posKey(sp.r, sp.c)).forEach(nb => { if (gameState.board[nb.r][nb.c] === 'T')
+                                sc += 20; });
+                        sc += (4 - (Math.abs(sp.r - 2) + Math.abs(sp.c - 2))) * 6;
+                        if (sp.r === 2 && sp.c === 2) sc += 15;
+                        if (sp.r === sp.c || sp.r + sp.c === 4) sc += 8;
+                        sc += Math.random() * 8;
+                        if (sc > bs) { bs = sc;
+                            best = sp; }
+                    });
+                    return best;
+                }
+                if (aiDifficulty === 'hard') {
+                    let best = spots[0],
+                        bs = -Infinity;
+                    const simB = deepCopyBoard(gameState.board);
+                    spots.forEach(sp => {
+                        simB[sp.r][sp.c] = 'G';
+                        let ts = -Infinity;
+                        const tms = getAllTigerMovesFromBoard(simB);
+                        if (!tms.length) ts = evaluateForGoats(simB, gameState.goatsCaptured, gameState
+                            .goatsToPlace - 1);
+                        else tms.forEach(tm => {
+                            const tb = deepCopyBoard(simB);
+                            tb[tm.fromR][tm.fromC] = null;
+                            tb[tm.toR][tm.toC] = 'T';
+                            let ci = 0;
+                            if (tm.isCapture && tm.capturedGoat) { tb[tm.capturedGoat.r][tm.capturedGoat
+                                    .c] = null;
+                                ci = 1; }
+                            const ev = evaluateForGoats(tb, gameState.goatsCaptured + ci, gameState
+                                .goatsToPlace - 1);
+                            if (ev > ts) ts = ev;
+                        });
+                        simB[sp.r][sp.c] = null;
+                        if (ts > bs) { bs = ts;
+                            best = sp; }
+                    });
+                    return best;
+                }
+                let best = spots[0],
+                    bs = -Infinity;
+                const simB = deepCopyBoard(gameState.board);
+                spots.slice(0, 15).forEach(sp => {
+                    simB[sp.r][sp.c] = 'G';
+                    const sc = minimax(simB, 2, -Infinity, Infinity, true, gameState.goatsCaptured, gameState
+                        .goatsToPlace - 1, gameState.goatsToPlace - 1 <= 0 ? 'movement' : 'placement');
+                    simB[sp.r][sp.c] = null;
+                    if (sc > bs) { bs = sc;
+                        best = sp; }
+                });
+                return best;
+            }
+
+            function aiChooseGoatMovement() {
+                const moves = getAllGoatMovesFromBoard(gameState.board);
+                if (!moves.length) return null;
+                if (aiDifficulty === 'easy') return moves[Math.floor(Math.random() * moves.length)];
+                if (aiDifficulty === 'medium') {
+                    let best = moves[0],
+                        bs = -Infinity;
+                    moves.forEach(mv => {
+                        let sc = 0;
+                        getAdjacent(posKey(mv.toR, mv.toC)).forEach(nb => { if (gameState.board[nb.r][nb.c] ===
+                                'T') sc += 18; });
+                        sc += (4 - (Math.abs(mv.toR - 2) + Math.abs(mv.toC - 2))) * 5;
+                        if (mv.toR === mv.toC || mv.toR + mv.toC === 4) sc += 7;
+                        sc += Math.random() * 6;
+                        if (sc > bs) { bs = sc;
+                            best = mv; }
+                    });
+                    return best;
+                }
+                if (aiDifficulty === 'hard') {
+                    let best = moves[0],
+                        bs = -Infinity;
+                    const simB = deepCopyBoard(gameState.board);
+                    moves.slice(0, 30).forEach(mv => {
+                        const tb = deepCopyBoard(simB);
+                        tb[mv.fromR][mv.fromC] = null;
+                        tb[mv.toR][mv.toC] = 'G';
+                        const sc = minimax(tb, 1, -Infinity, Infinity, false, gameState.goatsCaptured,
+                            gameState.goatsToPlace, gameState.phase);
+                        if (sc > bs) { bs = sc;
+                            best = mv; }
+                    });
+                    return best;
+                }
+                let best = moves[0],
+                    bs = -Infinity;
+                const simB = deepCopyBoard(gameState.board);
+                moves.slice(0, 25).forEach(mv => {
+                    const tb = deepCopyBoard(simB);
+                    tb[mv.fromR][mv.fromC] = null;
+                    tb[mv.toR][mv.toC] = 'G';
+                    const sc = minimax(tb, 2, -Infinity, Infinity, false, gameState.goatsCaptured, gameState
+                        .goatsToPlace, gameState.phase);
+                    if (sc > bs) { bs = sc;
+                        best = mv; }
+                });
+                return best;
+            }
+
+            function aiChooseTigerMove() {
+                const moves = getAllTigerMovesFromBoard(gameState.board);
+                if (!moves.length) return null;
+                if (aiDifficulty === 'easy') {
+                    const caps = moves.filter(m => m.isCapture);
+                    if (caps.length && Math.random() < 0.7) return caps[Math.floor(Math.random() * caps.length)];
+                    return moves[Math.floor(Math.random() * moves.length)];
+                }
+                if (aiDifficulty === 'medium') {
+                    const caps = moves.filter(m => m.isCapture);
+                    if (caps.length) {
+                        let best = caps[0],
+                            bs = -Infinity;
+                        caps.forEach(cap => {
+                            let sc = (4 - (Math.abs(cap.toR - 2) + Math.abs(cap.toC - 2))) * 6 + Math.random() *
+                                4;
+                            if (sc > bs) { bs = sc;
+                                best = cap; }
+                        });
+                        return best;
+                    }
+                    let best = moves[0],
+                        bs = -Infinity;
+                    moves.forEach(mv => {
+                        let sc = (4 - (Math.abs(mv.toR - 2) + Math.abs(mv.toC - 2))) * 8;
+                        const tb = deepCopyBoard(gameState.board);
+                        tb[mv.fromR][mv.fromC] = null;
+                        tb[mv.toR][mv.toC] = 'T';
+                        const fm = getValidTigerMovesOnBoard(tb, mv.toR, mv.toC);
+                        sc += fm.length * 10 + fm.filter(m => m.isCapture).length * 30 + Math.random() * 5;
+                        if (sc > bs) { bs = sc;
+                            best = mv; }
+                    });
+                    return best;
+                }
+                if (aiDifficulty === 'hard') {
+                    const caps = moves.filter(m => m.isCapture);
+                    const search = caps.length ? caps : moves;
+                    let best = search[0],
+                        bs = -Infinity;
+                    const simB = deepCopyBoard(gameState.board);
+                    search.forEach(mv => {
+                        const tb = deepCopyBoard(simB);
+                        tb[mv.fromR][mv.fromC] = null;
+                        tb[mv.toR][mv.toC] = 'T';
+                        let ci = 0;
+                        if (mv.isCapture && mv.capturedGoat) { tb[mv.capturedGoat.r][mv.capturedGoat.c] =
+                                null;
+                            ci = 1; }
+                        if (gameState.goatsCaptured + ci >= 5) { best = mv;
+                            bs = 10000; return; }
+                        const sc = minimax(tb, 2, -Infinity, Infinity, false, gameState.goatsCaptured + ci,
+                            gameState.goatsToPlace, gameState.phase);
+                        if (sc > bs) { bs = sc;
+                            best = mv; }
+                    });
+                    return best;
+                }
+                const caps = moves.filter(m => m.isCapture);
+                const search = caps.length ? caps : moves;
+                const sorted = [...search].sort((a, b) => {
+                    if (a.isCapture && !b.isCapture) return -1;
+                    if (!a.isCapture && b.isCapture) return 1;
+                    return 0;
+                });
+                let best = sorted[0],
+                    bs = -Infinity;
+                const simB = deepCopyBoard(gameState.board);
+                sorted.forEach(mv => {
+                    const tb = deepCopyBoard(simB);
+                    tb[mv.fromR][mv.fromC] = null;
+                    tb[mv.toR][mv.toC] = 'T';
+                    let ci = 0;
+                    if (mv.isCapture && mv.capturedGoat) { tb[mv.capturedGoat.r][mv.capturedGoat.c] = null;
+                        ci = 1; }
+                    if (gameState.goatsCaptured + ci >= 5) { best = mv;
+                        bs = 10000; return; }
+                    const sc = minimax(tb, 3, -Infinity, Infinity, false, gameState.goatsCaptured + ci, gameState
+                        .goatsToPlace, gameState.phase);
+                    if (sc > bs) { bs = sc;
+                        best = mv; }
+                });
+                return best;
+            }
+
+            function minimax(board, depth, alpha, beta, maximizingForTigers, goatsCaptured, goatsToPlace, phase) {
+                if (depth <= 0 || goatsCaptured >= 5) return maximizingForTigers ? evaluateForTigers(board,
+                    goatsCaptured) : evaluateForGoats(board, goatsCaptured, goatsToPlace);
+                const tcm = anyTigerCanMoveOnBoard(board);
+                const gcm = anyGoatCanMoveOnBoard(board);
+                if (countTigersTrappedOnBoard(board) >= 4 && !tcm) return maximizingForTigers ? -10000 : 10000;
+                if (!tcm && !gcm) return maximizingForTigers ? -5000 : 5000;
+                if (maximizingForTigers) {
+                    if (!tcm) return -8000;
+                    const tms = getAllTigerMovesFromBoard(board).sort((a, b) => (b.isCapture ? 1 : 0) - (a.isCapture ? 1 :
+                        0));
+                    let best = -Infinity;
+                    for (const mv of tms) {
+                        const tb = deepCopyBoard(board);
+                        tb[mv.fromR][mv.fromC] = null;
+                        tb[mv.toR][mv.toC] = 'T';
+                        let ci = 0;
+                        if (mv.isCapture && mv.capturedGoat) { tb[mv.capturedGoat.r][mv.capturedGoat.c] = null;
+                            ci = 1; }
+                        if (goatsCaptured + ci >= 5) return 10000;
+                        best = Math.max(best, minimax(tb, depth - 1, alpha, beta, false, goatsCaptured + ci, goatsToPlace,
+                            phase));
+                        alpha = Math.max(alpha, best);
+                        if (beta <= alpha) break;
+                    }
+                    return best;
+                } else {
+                    if (phase === 'placement' && goatsToPlace > 0) {
+                        const spots = getAllEmptySpots(board).slice(0, 10);
+                        if (!spots.length) return minimax(board, depth - 1, alpha, beta, true, goatsCaptured, goatsToPlace,
+                            goatsToPlace <= 1 ? 'movement' : phase);
+                        let best = Infinity;
+                        for (const sp of spots) {
+                            const tb = deepCopyBoard(board);
+                            tb[sp.r][sp.c] = 'G';
+                            const ntp = goatsToPlace - 1;
+                            best = Math.min(best, minimax(tb, depth - 1, alpha, beta, true, goatsCaptured, ntp, ntp <= 0 ?
+                                'movement' : 'placement'));
+                            beta = Math.min(beta, best);
+                            if (beta <= alpha) break;
+                        }
+                        return best;
+                    } else {
+                        if (!gcm) return minimax(board, depth - 1, alpha, beta, true, goatsCaptured, goatsToPlace, phase);
+                        const gms = getAllGoatMovesFromBoard(board).slice(0, 20);
+                        if (!gms.length) return minimax(board, depth - 1, alpha, beta, true, goatsCaptured, goatsToPlace,
+                            phase);
+                        let best = Infinity;
+                        for (const mv of gms) {
+                            const tb = deepCopyBoard(board);
+                            tb[mv.fromR][mv.fromC] = null;
+                            tb[mv.toR][mv.toC] = 'G';
+                            best = Math.min(best, minimax(tb, depth - 1, alpha, beta, true, goatsCaptured, goatsToPlace,
+                                phase));
+                            beta = Math.min(beta, best);
+                            if (beta <= alpha) break;
+                        }
+                        return best;
+                    }
+                }
+            }
+
+            function recordGameResult(winner) {
+                if (!gameState || !gameState.gameOver) return;
+                const user = localStorage.getItem('baghchal_user') || 'Anonymous';
+                let result = 'loss';
+                if (gameMode === 'friend') result = 'draw';
+                else if (winner === playerSide) result = 'win';
+                else if (winner && winner !== playerSide) result = 'loss';
+                else if (!winner) result = 'draw';
+                const modeLabel = gameMode === 'ai' ? 'vs AI (' + aiDifficulty + ')' : gameMode === 'friend' ?
+                    'Local 2P' : 'Online';
+                saveToLeaderboard({ player: user, result, mode: modeLabel });
+                localStorage.removeItem('baghchal_saved_game');
+                document.getElementById('btnLoad').style.display = 'none';
+            }
+
+            // ────────────────────────────────────────
+            // KEYBOARD CONTROLS
+            // ────────────────────────────────────────
+            document.addEventListener('keydown', function(e) {
+                if (currentSection !== 'game') return;
+                if (e.key === 'r' || e.key === 'R') {
+                    if (!e.ctrlKey && !e.metaKey) { e.preventDefault();
+                        restartGame(); return; }
+                }
+                if (e.key === 'u' || e.key === 'U') {
+                    if (!e.ctrlKey && !e.metaKey) { e.preventDefault();
+                        undoMove(); return; }
+                }
+                if (e.key === 'h' || e.key === 'H') {
+                    if (!e.ctrlKey && !e.metaKey) { e.preventDefault();
+                        showHint(); return; }
+                }
+                if (e.key === 'Escape') {
+                    if (gameState && !aiThinking && !isAITurn()) { gameState.selectedPiece = null;
+                        gameState.validDestinations = [];
+                        hintMove = null;
+                        drawBoard(); }
+                    document.querySelectorAll('.overlay').forEach(o => {
+                        if (o.id !== 'gameOverOverlay') o.style.display = 'none';
+                    });
+                    clearTimeout(matchmakingTimeout);
+                    clearInterval(matchmakingInterval);
+                    document.getElementById('matchmakingOverlay').style.display = 'none';
+                    return;
+                }
+                if (gameState && !gameState.gameOver && !aiThinking && !isAITurn()) {
+                    const kb = keyboardFocusPos;
+                    let moved = false;
+                    if (e.key === 'ArrowUp') { if (kb.r > 0) kb.r--;
+                        moved = true; }
+                    if (e.key === 'ArrowDown') { if (kb.r < 4) kb.r++;
+                        moved = true; }
+                    if (e.key === 'ArrowLeft') { if (kb.c > 0) kb.c--;
+                        moved = true; }
+                    if (e.key === 'ArrowRight') { if (kb.c < 4) kb.c++;
+                        moved = true; }
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        processHumanMove(kb.r, kb.c);
+                        moved = true;
+                    }
+                    if (moved) {
+                        e.preventDefault();
+                        drawBoard();
+                    }
+                }
+            });
+
+            // ────────────────────────────────────────
+            // RESIZE HANDLER
+            // ────────────────────────────────────────
+            let resizeDebounce = null;
+            window.addEventListener('resize', () => {
+                if (resizeDebounce) clearTimeout(resizeDebounce);
+                resizeDebounce = setTimeout(() => {
+                    const oldSize = CANVAS_SIZE;
+                    calculateBoardDimensions();
+                    if (CANVAS_SIZE !== oldSize && currentSection === 'game') {
+                        updateCanvasSize();
+                        updateGameUI();
+                        drawBoard();
+                    }
+                }, 300);
+            });
+
+            // ────────────────────────────────────────
+            // INIT
+            // ────────────────────────────────────────
+            gameState = createInitialState();
+            navigateTo('home');
+            updateSettingsButtons();
+            renderLeaderboard();
+            renderStatsDashboard();
+
+            window.navigateTo = navigateTo;
+            window.openModal = openModal;
+            window.closeModal = closeModal;
+            window.startGame = startGame;
+            window.startOnlineMatchmaking = startOnlineMatchmaking;
+            window.cancelMatchmaking = cancelMatchmaking;
+            window.restartGame = restartGame;
+            window.quitGame = quitGame;
+            window.handleLogin = handleLogin;
+            window.handleSignup = handleSignup;
+            window.undoMove = undoMove;
+            window.showHint = showHint;
+            window.saveGame = saveGame;
+            window.loadGame = loadGame;
+            window.toggleTimer = toggleTimer;
+
+            console.log('🐅 Bagh-Chal — Tiger\'s Gambit ready!');
+            console.log('🎮 Features: AI, Online, Local 2P, Undo, Hint, Timer, Save/Load, Quit, Threefold Draw, Sound FX, Confetti');
+        })();
+    </script>
+</body>
+</html>
